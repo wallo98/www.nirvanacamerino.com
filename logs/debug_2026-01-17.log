@@ -1,0 +1,215 @@
+2026-01-17 03:44:54 | saveOrderLog START
+2026-01-17 03:44:54 | esisteCarrello: 2509
+2026-01-17 03:44:54 | Params: type=order_start, step=0, field=
+2026-01-17 03:44:54 | File write result: OK
+2026-01-17 03:44:54 | DB insert result: OK
+2026-01-17 03:45:05 | saveOrderLog START
+2026-01-17 03:45:05 | esisteCarrello: 2509
+2026-01-17 03:45:05 | Params: type=selection, step=0, field=deliveryType
+2026-01-17 03:45:05 | File write result: OK
+2026-01-17 03:45:05 | DB insert result: OK
+2026-01-17 03:45:11 | saveOrderLog START
+2026-01-17 03:45:11 | esisteCarrello: 2509
+2026-01-17 03:45:11 | Params: type=step_change, step=1, field=
+2026-01-17 03:45:11 | File write result: OK
+2026-01-17 03:45:11 | DB insert result: OK
+2026-01-17 13:01:29 | saveOrderLog START
+2026-01-17 13:01:29 | esisteCarrello: 2510
+2026-01-17 13:01:29 | Params: type=order_start, step=0, field=
+2026-01-17 13:01:29 | File write result: OK
+2026-01-17 13:01:29 | DB insert result: OK
+2026-01-17 13:01:31 | saveOrderLog START
+2026-01-17 13:01:31 | esisteCarrello: 2510
+2026-01-17 13:01:31 | Params: type=selection, step=0, field=deliveryType
+2026-01-17 13:01:31 | File write result: OK
+2026-01-17 13:01:31 | DB insert result: OK
+2026-01-17 13:01:32 | saveOrderLog START
+2026-01-17 13:01:32 | esisteCarrello: 2510
+2026-01-17 13:01:32 | Params: type=step_change, step=1, field=
+2026-01-17 13:01:32 | File write result: OK
+2026-01-17 13:01:32 | DB insert result: OK
+2026-01-17 13:01:38 | saveOrderLog START
+2026-01-17 13:01:38 | esisteCarrello: 2510
+2026-01-17 13:01:38 | Params: type=field_input, step=1, field=nome_blur
+2026-01-17 13:01:38 | File write result: OK
+2026-01-17 13:01:38 | DB insert result: OK
+2026-01-17 13:01:39 | saveOrderLog START
+2026-01-17 13:01:39 | esisteCarrello: 2510
+2026-01-17 13:01:39 | Params: type=field_input, step=1, field=nome
+2026-01-17 13:01:39 | File write result: OK
+2026-01-17 13:01:39 | DB insert result: OK
+2026-01-17 13:01:40 | saveOrderLog START
+2026-01-17 13:01:40 | esisteCarrello: 2510
+2026-01-17 13:01:40 | Params: type=field_input, step=1, field=cognome_blur
+2026-01-17 13:01:40 | File write result: OK
+2026-01-17 13:01:40 | DB insert result: OK
+2026-01-17 13:01:40 | saveOrderLog START
+2026-01-17 13:01:40 | esisteCarrello: 2510
+2026-01-17 13:01:40 | Params: type=field_input, step=1, field=cognome
+2026-01-17 13:01:40 | File write result: OK
+2026-01-17 13:01:40 | DB insert result: OK
+2026-01-17 13:01:44 | saveOrderLog START
+2026-01-17 13:01:44 | esisteCarrello: 2510
+2026-01-17 13:01:44 | Params: type=field_input, step=1, field=indirizzo
+2026-01-17 13:01:44 | File write result: OK
+2026-01-17 13:01:44 | DB insert result: OK
+2026-01-17 13:01:47 | saveOrderLog START
+2026-01-17 13:01:47 | esisteCarrello: 2510
+2026-01-17 13:01:47 | Params: type=field_input, step=1, field=indirizzo_blur
+2026-01-17 13:01:47 | File write result: OK
+2026-01-17 13:01:47 | DB insert result: OK
+2026-01-17 13:01:47 | saveOrderLog START
+2026-01-17 13:01:47 | esisteCarrello: 2510
+2026-01-17 13:01:47 | Params: type=field_input, step=1, field=indirizzo
+2026-01-17 13:01:47 | File write result: OK
+2026-01-17 13:01:47 | DB insert result: OK
+2026-01-17 13:01:48 | saveOrderLog START
+2026-01-17 13:01:48 | esisteCarrello: 2510
+2026-01-17 13:01:48 | Params: type=field_input, step=1, field=telefono_blur
+2026-01-17 13:01:48 | File write result: OK
+2026-01-17 13:01:48 | DB insert result: OK
+2026-01-17 13:01:49 | saveOrderLog START
+2026-01-17 13:01:49 | esisteCarrello: 2510
+2026-01-17 13:01:49 | Params: type=field_input, step=1, field=telefono
+2026-01-17 13:01:49 | File write result: OK
+2026-01-17 13:01:49 | DB insert result: OK
+2026-01-17 13:01:51 | saveOrderLog START
+2026-01-17 13:01:51 | esisteCarrello: 2510
+2026-01-17 13:01:51 | Params: type=field_input, step=1, field=email
+2026-01-17 13:01:51 | File write result: OK
+2026-01-17 13:01:51 | DB insert result: OK
+2026-01-17 13:01:51 | saveOrderLog START
+2026-01-17 13:01:51 | esisteCarrello: 2510
+2026-01-17 13:01:51 | Params: type=field_input, step=1, field=email_blur
+2026-01-17 13:01:51 | File write result: OK
+2026-01-17 13:01:51 | DB insert result: OK
+2026-01-17 13:01:56 | saveOrderLog START
+2026-01-17 13:01:56 | esisteCarrello: 2510
+2026-01-17 13:01:56 | Params: type=step_change, step=2, field=
+2026-01-17 13:01:56 | File write result: OK
+2026-01-17 13:01:56 | DB insert result: OK
+2026-01-17 13:01:59 | saveOrderLog START
+2026-01-17 13:01:59 | esisteCarrello: 2510
+2026-01-17 13:01:59 | Params: type=field_input, step=2, field=orario_consegna
+2026-01-17 13:01:59 | File write result: OK
+2026-01-17 13:01:59 | DB insert result: OK
+2026-01-17 13:02:06 | saveOrderLog START
+2026-01-17 13:02:06 | esisteCarrello: 2510
+2026-01-17 13:02:06 | Params: type=step_change, step=1, field=
+2026-01-17 13:02:06 | File write result: OK
+2026-01-17 13:02:06 | DB insert result: OK
+2026-01-17 13:02:08 | saveOrderLog START
+2026-01-17 13:02:08 | esisteCarrello: 2510
+2026-01-17 13:02:08 | Params: type=step_change, step=0, field=
+2026-01-17 13:02:08 | File write result: OK
+2026-01-17 13:02:08 | DB insert result: OK
+2026-01-17 13:02:09 | saveOrderLog START
+2026-01-17 13:02:09 | esisteCarrello: 2510
+2026-01-17 13:02:09 | Params: type=selection, step=0, field=deliveryType
+2026-01-17 13:02:09 | File write result: OK
+2026-01-17 13:02:09 | DB insert result: OK
+2026-01-17 13:02:10 | saveOrderLog START
+2026-01-17 13:02:10 | esisteCarrello: 2510
+2026-01-17 13:02:10 | Params: type=selection, step=0, field=deliveryType
+2026-01-17 13:02:10 | File write result: OK
+2026-01-17 13:02:10 | DB insert result: OK
+2026-01-17 13:02:11 | saveOrderLog START
+2026-01-17 13:02:11 | esisteCarrello: 2510
+2026-01-17 13:02:11 | Params: type=step_change, step=1, field=
+2026-01-17 13:02:11 | File write result: OK
+2026-01-17 13:02:11 | DB insert result: OK
+2026-01-17 13:02:13 | saveOrderLog START
+2026-01-17 13:02:13 | esisteCarrello: 2510
+2026-01-17 13:02:13 | Params: type=step_change, step=2, field=
+2026-01-17 13:02:13 | File write result: OK
+2026-01-17 13:02:13 | DB insert result: OK
+2026-01-17 13:02:16 | saveOrderLog START
+2026-01-17 13:02:16 | esisteCarrello: 2510
+2026-01-17 13:02:16 | Params: type=step_change, step=3, field=
+2026-01-17 13:02:16 | File write result: OK
+2026-01-17 13:02:16 | DB insert result: OK
+2026-01-17 13:02:19 | saveOrderLog START
+2026-01-17 13:02:19 | esisteCarrello: 2510
+2026-01-17 13:02:19 | Params: type=selection, step=3, field=paymentType
+2026-01-17 13:02:19 | File write result: OK
+2026-01-17 13:02:19 | DB insert result: OK
+2026-01-17 13:02:21 | saveOrderLog START
+2026-01-17 13:02:21 | esisteCarrello: 2510
+2026-01-17 13:02:21 | Params: type=step_change, step=4, field=
+2026-01-17 13:02:21 | File write result: OK
+2026-01-17 13:02:21 | DB insert result: OK
+2026-01-17 13:02:21 | saveOrderLog START
+2026-01-17 13:02:21 | esisteCarrello: 2510
+2026-01-17 13:02:21 | Params: type=info, step=4, field=
+2026-01-17 13:02:21 | File write result: OK
+2026-01-17 13:02:21 | DB insert result: OK
+2026-01-17 13:02:21 | saveOrderLog START
+2026-01-17 13:02:21 | esisteCarrello: 2510
+2026-01-17 13:02:21 | Params: type=riepilogo_loaded, step=4, field=prodotti
+2026-01-17 13:02:21 | File write result: OK
+2026-01-17 13:02:21 | DB insert result: OK
+2026-01-17 13:02:25 | saveOrderLog START
+2026-01-17 13:02:25 | saveOrderLog START
+2026-01-17 13:02:25 | saveOrderLog START
+2026-01-17 13:02:25 | saveOrderLog START
+2026-01-17 13:02:25 | esisteCarrello: 2510
+2026-01-17 13:02:25 | Params: type=step_change, step=5, field=
+2026-01-17 13:02:25 | File write result: OK
+2026-01-17 13:02:25 | DB insert result: OK
+2026-01-17 13:02:25 | esisteCarrello: 2510
+2026-01-17 13:02:25 | Params: type=info, step=4, field=
+2026-01-17 13:02:25 | File write result: OK
+2026-01-17 13:02:25 | DB insert result: OK
+2026-01-17 13:02:25 | esisteCarrello: 2510
+2026-01-17 13:02:25 | Params: type=payment_start, step=4, field=dati_ordine
+2026-01-17 13:02:25 | File write result: OK
+2026-01-17 13:02:25 | DB insert result: OK
+2026-01-17 13:02:25 | esisteCarrello: 2510
+2026-01-17 13:02:25 | Params: type=info, step=4, field=
+2026-01-17 13:02:25 | File write result: OK
+2026-01-17 13:02:25 | saveOrderLog START
+2026-01-17 13:02:25 | DB insert result: OK
+2026-01-17 13:02:25 | esisteCarrello: 2510
+2026-01-17 13:02:25 | Params: type=riepilogo_loaded, step=4, field=prodotti
+2026-01-17 13:02:25 | File write result: OK
+2026-01-17 13:02:25 | DB insert result: OK
+2026-01-17 13:02:25 | saveOrderLog START
+2026-01-17 13:02:26 | esisteCarrello: 2510
+2026-01-17 13:02:26 | Params: type=info, step=4, field=
+2026-01-17 13:02:26 | File write result: OK
+2026-01-17 13:02:26 | DB insert result: OK
+2026-01-17 13:02:26 | saveOrderLog START
+2026-01-17 13:02:26 | esisteCarrello: 2510
+2026-01-17 13:02:26 | Params: type=info, step=4, field=
+2026-01-17 13:02:26 | File write result: OK
+2026-01-17 13:02:26 | DB insert result: OK
+2026-01-17 13:02:26 | saveOrderLog START
+2026-01-17 13:02:26 | saveOrderLog START
+2026-01-17 13:02:26 | esisteCarrello: 2510
+2026-01-17 13:02:26 | Params: type=order_complete, step=4, field=paymentType
+2026-01-17 13:02:26 | File write result: OK
+2026-01-17 13:02:26 | DB insert result: OK
+2026-01-17 13:02:26 | esisteCarrello: 2510
+2026-01-17 13:02:26 | Params: type=info, step=4, field=
+2026-01-17 13:02:26 | File write result: OK
+2026-01-17 13:02:26 | DB insert result: OK
+2026-01-17 15:03:42 | saveOrderLog START
+2026-01-17 15:03:42 | esisteCarrello: 2510
+2026-01-17 15:03:42 | Params: type=order_start, step=0, field=
+2026-01-17 15:03:42 | File write result: OK
+2026-01-17 15:03:42 | DB insert result: OK
+2026-01-17 15:03:43 | saveOrderLog START
+2026-01-17 15:03:43 | esisteCarrello: 2510
+2026-01-17 15:03:43 | Params: type=selection, step=0, field=deliveryType
+2026-01-17 15:03:43 | File write result: OK
+2026-01-17 15:03:43 | DB insert result: OK
+2026-01-17 15:18:46 | saveOrderLog START
+2026-01-17 15:18:46 | esisteCarrello: 2510
+2026-01-17 15:18:46 | Params: type=order_start, step=0, field=
+2026-01-17 15:18:46 | File write result: OK
+2026-01-17 15:18:46 | DB insert result: OK
+2026-01-17 17:31:23 | saveOrderLog START
+2026-01-17 17:31:23 | esisteCarrello: 2513
+2026-01-17 17:31:23 | Params: type=order_start, step=0, field=
+2026-01-17 17:31:23 | File write result: OK
+2026-01-17 17:31:23 | DB insert result: OK

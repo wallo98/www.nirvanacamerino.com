@@ -1,0 +1,1666 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ordine - Nirvana Pizzeria</title>
+    
+    <!-- jQuery PRIMA di tutto -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <!-- Fonts (stessi di index.html) -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Josefin+Sans" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nothing+You+Could+Do" rel="stylesheet">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <!-- Original CSS files -->
+    <link rel="stylesheet" href="css/open-iconic-bootstrap.min.css">
+    <link rel="stylesheet" href="css/flaticon.css">
+    <link rel="stylesheet" href="css/icomoon.css">
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        :root {
+            --primary-gold: #D4A853;
+            --primary-gold-dark: #B8923E;
+            --dark-bg: #1A1A1A;
+            --darker-bg: #0F0F0F;
+            --card-bg: #242424;
+            --text-light: #F5F5F5;
+            --text-muted: #9A9A9A;
+            --success-green: #4CAF50;
+            --error-red: #E53935;
+            --warning-orange: #FF9800;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--darker-bg) 0%, var(--dark-bg) 50%, #2A2215 100%);
+            min-height: 100vh;
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-light);
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            max-width: 700px;
+            margin: 0 auto 40px;
+            padding: 0 20px;
+        }
+
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .progress-steps::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 10%;
+            width: 80%;
+            height: 3px;
+            background: var(--card-bg);
+            z-index: 0;
+        }
+
+        .progress-line {
+            position: absolute;
+            top: 20px;
+            left: 10%;
+            width: 0%;
+            max-width: 80%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-gold), var(--primary-gold-dark));
+            z-index: 1;
+            transition: width 0.5s ease;
+        }
+
+        .step-indicator {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 2;
+            position: relative;
+        }
+
+        .step-circle {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--card-bg);
+            border: 3px solid var(--card-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 16px;
+            color: var(--text-muted);
+            transition: all 0.4s ease;
+        }
+
+        .step-indicator.active .step-circle {
+            background: linear-gradient(135deg, var(--primary-gold), var(--primary-gold-dark));
+            border-color: var(--primary-gold);
+            color: var(--darker-bg);
+            box-shadow: 0 0 20px rgba(212, 168, 83, 0.4);
+        }
+
+        .step-indicator.completed .step-circle {
+            background: var(--success-green);
+            border-color: var(--success-green);
+            color: white;
+        }
+
+        .step-label {
+            margin-top: 10px;
+            font-size: 12px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-align: center;
+        }
+
+        .step-indicator.active .step-label {
+            color: var(--primary-gold);
+        }
+
+        /* Main Form Container */
+        .order-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .form-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(212, 168, 83, 0.1);
+        }
+
+        .form-title {
+            font-family: 'Josefin Sans', sans-serif;
+            font-size: 28px;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, var(--primary-gold), #E8C872);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .form-subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        /* Step Content */
+        .step {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .step.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Delivery Options */
+        .delivery-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .delivery-card {
+            background: var(--dark-bg);
+            border: 2px solid transparent;
+            border-radius: 16px;
+            padding: 30px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .delivery-card:hover:not(.disabled) {
+            border-color: rgba(212, 168, 83, 0.5);
+            transform: translateY(-4px);
+        }
+        
+        .delivery-card.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            position: relative;
+        }
+        
+        .delivery-card.disabled::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 16px;
+        }
+        
+        .delivery-card.disabled:hover {
+            transform: none;
+            border-color: transparent;
+        }
+
+        .delivery-card.selected {
+            border-color: var(--primary-gold);
+            background: linear-gradient(135deg, rgba(212, 168, 83, 0.15), rgba(212, 168, 83, 0.05));
+        }
+
+        .delivery-card i {
+            font-size: 36px;
+            color: var(--primary-gold);
+            margin-bottom: 12px;
+        }
+
+        .delivery-card h4 {
+            font-size: 16px;
+            font-weight: 600;
+            margin: 0;
+            color: var(--text-light);
+        }
+
+        .delivery-card input {
+            display: none;
+        }
+
+        /* Form Inputs */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group label .required {
+            color: var(--primary-gold);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 14px 18px;
+            background: var(--dark-bg);
+            border: 2px solid transparent;
+            border-radius: 12px;
+            color: var(--text-light);
+            font-size: 15px;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-gold);
+            box-shadow: 0 0 0 4px rgba(212, 168, 83, 0.15);
+        }
+
+        .form-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .form-input.is-invalid {
+            border-color: var(--error-red) !important;
+            animation: shake 0.4s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-8px); }
+            75% { transform: translateX(8px); }
+        }
+
+        .input-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        /* Time Select */
+        .time-select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23D4A853' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            padding-right: 45px;
+        }
+
+        /* Payment Options */
+        .payment-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .payment-card {
+            background: var(--dark-bg);
+            border: 2px solid transparent;
+            border-radius: 14px;
+            padding: 18px 24px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .payment-card:hover {
+            border-color: rgba(212, 168, 83, 0.5);
+        }
+
+        .payment-card.selected {
+            border-color: var(--primary-gold);
+            background: linear-gradient(135deg, rgba(212, 168, 83, 0.15), rgba(212, 168, 83, 0.05));
+        }
+
+        .payment-card i {
+            font-size: 24px;
+            color: var(--primary-gold);
+            width: 32px;
+            text-align: center;
+        }
+
+        .payment-card span {
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .payment-card input {
+            display: none;
+        }
+
+        /* Summary Cards */
+        .summary-section {
+            margin-bottom: 24px;
+        }
+
+        .summary-card {
+            background: var(--dark-bg);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .summary-header {
+            background: linear-gradient(135deg, rgba(212, 168, 83, 0.2), rgba(212, 168, 83, 0.1));
+            padding: 16px 20px;
+            font-weight: 600;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .summary-header i {
+            color: var(--primary-gold);
+        }
+
+        .summary-body {
+            padding: 20px;
+        }
+
+        .summary-table {
+            width: 100%;
+        }
+
+        .summary-table th,
+        .summary-table td {
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 14px;
+            color: var(--text-light);
+        }
+
+        .summary-table th {
+            color: var(--text-muted);
+            font-weight: 500;
+            text-align: left;
+            width: 40%;
+        }
+
+        .summary-table td {
+            text-align: right;
+        }
+
+        .summary-table tr:last-child th,
+        .summary-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .order-item:last-child {
+            border-bottom: none;
+        }
+
+        .order-item-name {
+            font-weight: 500;
+        }
+
+        .order-item-qty {
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+
+        .order-item-price {
+            color: var(--primary-gold);
+            font-weight: 600;
+        }
+
+        .order-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+            background: linear-gradient(135deg, var(--primary-gold), var(--primary-gold-dark));
+            color: var(--darker-bg);
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        /* Notes Textarea */
+        .notes-textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        /* Buttons */
+        .btn-container {
+            display: flex;
+            gap: 12px;
+            margin-top: 30px;
+        }
+
+        .btn-prev {
+            flex: 1;
+            padding: 16px 24px;
+            background: var(--dark-bg);
+            border: 2px solid var(--text-muted);
+            border-radius: 12px;
+            color: var(--text-light);
+            font-size: 15px;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-prev:hover {
+            border-color: var(--text-light);
+        }
+
+        .btn-next {
+            flex: 2;
+            padding: 16px 24px;
+            background: linear-gradient(135deg, var(--primary-gold), var(--primary-gold-dark));
+            border: none;
+            border-radius: 12px;
+            color: var(--darker-bg);
+            font-size: 15px;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-next:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(212, 168, 83, 0.35);
+        }
+
+        .btn-next:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Loader Overlay */
+        .loader-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .loader-overlay.active {
+            display: flex;
+        }
+
+        .loader-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid var(--card-bg);
+            border-top-color: var(--primary-gold);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loader-text {
+            margin-top: 16px;
+            color: var(--text-light);
+            font-size: 14px;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .form-card {
+                padding: 24px;
+                border-radius: 16px;
+            }
+
+            .form-title {
+                font-size: 22px;
+            }
+
+            .input-row {
+                grid-template-columns: 1fr;
+            }
+
+            .delivery-options {
+                grid-template-columns: 1fr;
+            }
+
+            .step-label {
+                font-size: 10px;
+            }
+
+            .step-circle {
+                width: 36px;
+                height: 36px;
+                font-size: 14px;
+            }
+        }
+
+        /* Toast Notifications */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 10000;
+        }
+
+        .toast-notification {
+            background: var(--card-bg);
+            padding: 16px 20px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            animation: slideIn 0.3s ease;
+            max-width: 350px;
+        }
+
+        .toast-notification.success {
+            border-left: 4px solid var(--success-green);
+        }
+
+        .toast-notification.error {
+            border-left: 4px solid var(--error-red);
+        }
+
+        .toast-notification i {
+            font-size: 20px;
+        }
+
+        .toast-notification.success i {
+            color: var(--success-green);
+        }
+
+        .toast-notification.error i {
+            color: var(--error-red);
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Loader Overlay -->
+    <div class="loader-overlay" id="loader">
+        <div class="loader-spinner"></div>
+        <div class="loader-text">Attendere...</div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+	    <div class="container">
+        <img src="images/logo.png" alt="Nirvana Logo" class="logo-img" style="max-height: 50px;">
+        <a class="navbar-brand" href="/home">
+            <br>Nirvana<small>Pub Pizzeria</small>
+            <br>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+	        <span class="oi oi-menu"></span> 
+	      </button>
+	      <div class="collapse navbar-collapse" id="ftco-nav">
+	        <ul class="navbar-nav ml-auto">
+	          <li class="nav-item"><a href="/home" class="nav-link">Home</a></li>
+	          <li class="nav-item "><a href="/menu" class="nav-link">Menu</a></li>
+	          <li class="nav-item"><a href="/menuKebab" class="nav-link">Secondo Menu</a></li>
+	          <li class="nav-item"><a href="/blog" class="nav-link">Eventi</a></li>
+	          <li class="nav-item"><a href="/contatti" class="nav-link">Contatti</a></li>
+	        </ul>
+	      </div>
+		  </div>
+	  </nav>
+
+    <div class="container" style="padding-top: 40px; padding-bottom: 60px;">
+        
+        <!-- Progress Steps -->
+        <div class="progress-container">
+            <div class="progress-steps">
+                <div class="progress-line" id="progressLine"></div>
+                <div class="step-indicator active" data-step="0">
+                    <div class="step-circle">1</div>
+                    <div class="step-label">Consegna</div>
+                </div>
+                <div class="step-indicator" data-step="1">
+                    <div class="step-circle">2</div>
+                    <div class="step-label">Dati</div>
+                </div>
+                <div class="step-indicator" data-step="2">
+                    <div class="step-circle">3</div>
+                    <div class="step-label">Orario</div>
+                </div>
+                <div class="step-indicator" data-step="3">
+                    <div class="step-circle">4</div>
+                    <div class="step-label">Pagamento</div>
+                </div>
+                <div class="step-indicator" data-step="4">
+                    <div class="step-circle">5</div>
+                    <div class="step-label">Conferma</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Order Form Container -->
+        <div class="order-container">
+            <div class="form-card">
+                <form id="orderForm" onsubmit="return false;">
+                    
+                    <!-- STEP 0: Delivery Type -->
+                    <div class="step active">
+                        <h2 class="form-title">Modalità di Consegna</h2>
+                        <p class="form-subtitle">Come preferisci ricevere il tuo ordine?</p>
+                        
+                        <div class="delivery-options">
+                            <div class="delivery-card" id="deliveryCardDelivery" data-value="Delivery" onclick="selectDelivery(this)">
+                                <input type="radio" name="deliveryType" value="Delivery" required>
+                                <i class="fas fa-bicycle"></i>
+                                <h4>Delivery</h4>
+                            </div>
+                            <div class="delivery-card" data-value="Asporto" onclick="selectDelivery(this)">
+                                <input type="radio" name="deliveryType" value="Asporto" required>
+                                <i class="fas fa-pizza-slice"></i>
+                                <h4>Asporto</h4>
+                            </div>
+                        </div>
+                        
+                        <!-- Alert per delivery disabilitato -->
+                        <div class="delivery-disabled-alert" id="deliveryDisabledAlert" style="display: none;">
+                            <div style="background: linear-gradient(135deg, rgba(255, 152, 0, 0.2), rgba(255, 152, 0, 0.1)); 
+                                        border: 2px solid var(--warning-orange); 
+                                        border-radius: 12px; 
+                                        padding: 16px; 
+                                        margin-top: 16px;">
+                                <div style="display: flex; align-items: flex-start; gap: 12px;">
+                                    <i class="fas fa-exclamation-triangle" style="color: var(--warning-orange); font-size: 20px; margin-top: 2px;"></i>
+                                    <div>
+                                        <strong style="color: var(--warning-orange); display: block; margin-bottom: 4px;">Consegne a domicilio non disponibili</strong>
+                                        <span id="deliveryDisabledMessage" style="color: var(--text-muted); font-size: 14px;"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- STEP 1: Personal Info -->
+                    <div class="step">
+                        <h2 class="form-title">I Tuoi Dati</h2>
+                        <p class="form-subtitle">Inserisci le informazioni per la consegna</p>
+                        
+                        <div class="input-row">
+                            <div class="form-group">
+                                <label>Nome <span class="required">*</span></label>
+                                <input type="text" class="form-input" id="name" name="name" placeholder="Mario" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Cognome <span class="required">*</span></label>
+                                <input type="text" class="form-input" id="surname" name="surname" placeholder="Rossi" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Indirizzo <span class="required">*</span></label>
+                            <input type="text" class="form-input" id="address" name="address" placeholder="Via Roma 123, Camerino" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Telefono <span class="required">*</span></label>
+                            <input type="tel" class="form-input" id="phone" name="phone" placeholder="+39 333 1234567" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Email <span class="required">*</span></label>
+                            <input type="email" class="form-input" id="email" name="email" placeholder="mario@email.com" required>
+                        </div>
+                    </div>
+
+                    <!-- STEP 2: Time Selection -->
+                    <div class="step">
+                        <h2 class="form-title">Orario Preferito</h2>
+                        <p class="form-subtitle">Scegli quando vuoi ricevere il tuo ordine</p>
+                        
+                        <div class="form-group">
+                            <label>Seleziona Orario <span class="required">*</span></label>
+                            <select class="form-input time-select" id="time" name="time" required>
+                                <option value="" disabled selected>-- Seleziona un orario --</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- STEP 3: Payment Method -->
+                    <div class="step">
+                        <h2 class="form-title">Metodo di Pagamento</h2>
+                        <p class="form-subtitle">Come preferisci pagare?</p>
+                        
+                        <div class="payment-options">
+                            <!--
+                            <div class="payment-card" data-value="Carta" onclick="selectPayment(this)">
+                                <input type="radio" name="paymentType" value="Carta" required>
+                                <i class="fas fa-credit-card"></i>
+                                <span>Paga ora con Carta</span>
+                            </div>
+                            -->
+                            <div class="payment-card" data-value="Contante" onclick="selectPayment(this)">
+                                <input type="radio" name="paymentType" value="Contante" required>
+                                <i class="fas fa-money-bill-wave"></i>
+                                <span>Pagamento in Contanti</span>
+                            </div>
+                            <div class="payment-card" data-value="Elettronico" onclick="selectPayment(this)">
+                                <input type="radio" name="paymentType" value="Elettronico" required>
+                                <i class="fas fa-mobile-alt"></i>
+                                <span>Pagamento con POS</span>
+                            </div>
+                        </div>
+                        <p id="posMessage" style="display: none; color: #FF9800; margin-top: 16px; font-size: 14px; font-weight: 500; text-align: center;">
+                            <i class="fas fa-info-circle"></i> Pagherai direttamente al corriere con POS
+                        </p>
+                    </div>
+
+                    <!-- STEP 4: Summary -->
+                    <div class="step">
+                        <h2 class="form-title">Riepilogo Ordine</h2>
+                        <p class="form-subtitle">Verifica i dettagli prima di confermare</p>
+                        
+                        <!-- Order Summary -->
+                        <div class="summary-section">
+                            <div class="summary-card">
+                                <div class="summary-header">
+                                    <i class="fas fa-shopping-bag"></i>
+                                    Il Tuo Ordine
+                                </div>
+                                <div class="summary-body" id="ordineTableBody">
+                                    <p style="text-align: center; color: var(--text-muted);">Caricamento...</p>
+                                </div>
+                                <div class="order-total">
+                                    <span>Totale</span>
+                                    <span id="riepilogoTotale">€0.00</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Personal Info Summary -->
+                        <div class="summary-section">
+                            <div class="summary-card">
+                                <div class="summary-header">
+                                    <i class="fas fa-user"></i>
+                                    Informazioni Consegna
+                                </div>
+                                <div class="summary-body">
+                                    <table class="summary-table">
+                                        <tr>
+                                            <th>Modalità</th>
+                                            <td id="summaryDelivery">-</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Nome</th>
+                                            <td id="summaryName">-</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Indirizzo</th>
+                                            <td id="summaryAddress">-</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Telefono</th>
+                                            <td id="summaryPhone">-</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Email</th>
+                                            <td id="summaryEmail">-</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Orario</th>
+                                            <td id="summaryTime">-</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Pagamento</th>
+                                            <td id="summaryPayment">-</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Notes -->
+                        <div class="form-group">
+                            <label>Note (opzionale)</label>
+                            <textarea class="form-input notes-textarea" id="notes" name="notes" 
+                                      placeholder="Aggiungi note speciali per il tuo ordine..."></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Navigation Buttons -->
+                    <div class="btn-container">
+                        <button type="button" class="btn-prev" id="prevBtn" onclick="nextPrev(-1)" style="display: none;">
+                            <i class="fas fa-arrow-left"></i> Indietro
+                        </button>
+                        <button type="button" class="btn-next" id="nextBtn" onclick="nextPrev(1)">
+                            Avanti <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="ftco-footer ftco-section img">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col-lg-4 col-md-6 mb-5">
+                    <div class="ftco-footer-widget mb-4">
+                        <h2 class="ftco-heading-2">Recapiti</h2>
+                        <div class="block-23 mb-3">
+                            <ul>
+                                <li><span class="icon icon-map-marker"></span><span class="text">Via Madonna delle carceri 4, Camerino, MC 62032</span></li>
+                                <li><span class="icon icon-phone"></span><span class="text">+39 3295695194</span></li>
+                                <li><span class="icon icon-envelope"></span><span class="text">esempio@mail.com</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-5">
+                    <div class="ftco-footer-widget mb-4 ml-md-4">
+                        <h2 class="ftco-heading-2">Pagine</h2>
+                        <ul class="list-unstyled">
+                            <li><a href="index.html" class="py-2 d-block">Home</a></li>
+                            <li><a href="menu.php" class="py-2 d-block">Menu</a></li>
+                            <li><a href="blog.php" class="py-2 d-block">Blog</a></li>
+                            <li><a href="contatti.html" class="py-2 d-block">Contatti</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-5">
+                    <div class="ftco-footer-widget mb-4">
+                        <h2 class="ftco-heading-2">Nirvana Pizzeria</h2>
+                        <p>La migliore pizza di Camerino, ingredienti freschi e di qualità.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <p>Copyright &copy;<script>document.write(new Date().getFullYear());</script> Nirvana Pizzeria. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+    // ====================================
+    // LA TUA LOGICA ORIGINALE (riepilogo.html)
+    // con grafica nuova (riepilogo2.html)
+    // ====================================
+
+    // ========================================
+    // SISTEMA DI LOGGING
+    // ========================================
+    const OrderLogger = {
+        idCarrello: null,
+        
+        // Invia log al server
+        async log(logType, data = {}) {
+            try {
+                const response = await $.ajax({
+                    type: "POST",
+                    url: 'action.php?_action=saveOrderLog',
+                    dataType: 'json',
+                    data: {
+                        logType: logType,
+                        step: data.step ?? currentStep,
+                        fieldName: data.fieldName ?? '',
+                        fieldValue: data.fieldValue ?? '',
+                        message: data.message ?? '',
+                        errorDetails: data.errorDetails ?? ''
+                    }
+                });
+                
+                // Salva id_carrello se ricevuto
+                if (response.id_carrello) {
+                    this.idCarrello = response.id_carrello;
+                }
+                
+                // Log anche in console per debug
+                console.log(`[LOG:${logType}]`, data, `| Cart:${this.idCarrello}`);
+                
+                return response;
+            } catch (error) {
+                console.error('[LOG ERROR]', error);
+                // Non bloccare l'utente se il log fallisce
+            }
+        },
+        
+        // Log cambio step
+        stepChange(fromStep, toStep) {
+            this.log('step_change', {
+                step: toStep,
+                message: `Passaggio da Step ${fromStep} a Step ${toStep}`
+            });
+        },
+        
+        // Log input campo
+        fieldInput(fieldName, fieldValue) {
+            this.log('field_input', {
+                fieldName: fieldName,
+                fieldValue: fieldValue,
+                message: `Campo ${fieldName} aggiornato`
+            });
+        },
+        
+        // Log selezione (delivery, payment)
+        selection(selectionType, value) {
+            this.log('selection', {
+                fieldName: selectionType,
+                fieldValue: value,
+                message: `Selezionato ${selectionType}: ${value}`
+            });
+        },
+        
+        // Log errore validazione
+        validationError(fieldName, message) {
+            this.log('validation_error', {
+                fieldName: fieldName,
+                message: message,
+                errorDetails: `Validazione fallita per ${fieldName}`
+            });
+        },
+        
+        // Log errore generico
+        error(message, errorDetails = '') {
+            this.log('error', {
+                message: message,
+                errorDetails: errorDetails
+            });
+        },
+        
+        // Log errore AJAX
+        ajaxError(action, xhr, status, error) {
+            this.log('ajax_error', {
+                message: `AJAX error su ${action}`,
+                errorDetails: JSON.stringify({
+                    status: status,
+                    error: error,
+                    responseText: xhr.responseText?.substring(0, 500) // Limita lunghezza
+                })
+            });
+        },
+        
+        // Log info generico
+        info(message) {
+            this.log('info', {
+                message: message
+            });
+        },
+        
+        // Log inizio ordine
+        orderStart() {
+            this.log('order_start', {
+                message: 'Utente ha iniziato il processo di ordine'
+            });
+        },
+        
+        // Log completamento ordine
+        orderComplete(paymentType) {
+            this.log('order_complete', {
+                fieldName: 'paymentType',
+                fieldValue: paymentType,
+                message: `Ordine completato con pagamento: ${paymentType}`
+            });
+        }
+    };
+
+    // ========================================
+    // VARIABILI GLOBALI PER STATO DELIVERY
+    // ========================================
+    let deliveryDisabilitato = false;
+    let deliveryMessaggio = '';
+
+    // ========================================
+    // INIZIALIZZAZIONE E EVENT LISTENERS PER LOGGING
+    // ========================================
+    $(document).ready(function() {
+        // Verifica stato consegne prima di tutto
+        verificaStatoDelivery();
+        
+        // Log inizio processo
+        OrderLogger.orderStart();
+        
+        // Debounce per evitare troppi log
+        let inputTimeout = {};
+        
+        // Log per campo Nome
+        $('#name').on('input', function() {
+            clearTimeout(inputTimeout.name);
+            inputTimeout.name = setTimeout(() => {
+                OrderLogger.fieldInput('nome', $(this).val());
+            }, 1000); // Aspetta 1 secondo dopo che l'utente smette di digitare
+        });
+        
+        // Log per campo Cognome
+        $('#surname').on('input', function() {
+            clearTimeout(inputTimeout.surname);
+            inputTimeout.surname = setTimeout(() => {
+                OrderLogger.fieldInput('cognome', $(this).val());
+            }, 1000);
+        });
+        
+        // Log per campo Email
+        $('#email').on('input', function() {
+            clearTimeout(inputTimeout.email);
+            inputTimeout.email = setTimeout(() => {
+                OrderLogger.fieldInput('email', $(this).val());
+            }, 1000);
+        });
+        
+        // Log per campo Telefono
+        $('#phone').on('input', function() {
+            clearTimeout(inputTimeout.phone);
+            inputTimeout.phone = setTimeout(() => {
+                OrderLogger.fieldInput('telefono', $(this).val());
+            }, 1000);
+        });
+        
+        // Log per campo Indirizzo
+        $('#address').on('input', function() {
+            clearTimeout(inputTimeout.address);
+            inputTimeout.address = setTimeout(() => {
+                OrderLogger.fieldInput('indirizzo', $(this).val());
+            }, 1000);
+        });
+        
+        // Log per campo Orario
+        $('#time').on('change', function() {
+            OrderLogger.fieldInput('orario_consegna', $(this).val());
+        });
+        
+        // Log per campo Note
+        $('#notes').on('input', function() {
+            clearTimeout(inputTimeout.notes);
+            inputTimeout.notes = setTimeout(() => {
+                OrderLogger.fieldInput('note', $(this).val());
+            }, 1500);
+        });
+        
+        // Log blur (quando esce dal campo) - log finale del valore
+        $('#name, #surname, #email, #phone, #address').on('blur', function() {
+            const fieldName = $(this).attr('id');
+            const fieldMapping = {
+                'name': 'nome',
+                'surname': 'cognome',
+                'email': 'email',
+                'phone': 'telefono',
+                'address': 'indirizzo'
+            };
+            OrderLogger.fieldInput(fieldMapping[fieldName] + '_blur', $(this).val());
+        });
+    });
+
+    let currentStep = 0;
+    showStep(currentStep);
+
+    // Verifica stato consegne dal server
+    function verificaStatoDelivery() {
+        $.ajax({
+            type: "POST",
+            url: 'action.php?_action=getDeliveryStatus',
+            dataType: 'json',
+            success: function (result) {
+                if (result.status === 1) {
+                    deliveryDisabilitato = result.data.delivery_disabilitato === '1';
+                    deliveryMessaggio = result.data.messaggio;
+                    
+                    if (deliveryDisabilitato) {
+                        // Disabilita la card Delivery
+                        const deliveryCard = document.getElementById('deliveryCardDelivery');
+                        if (deliveryCard) {
+                            deliveryCard.classList.add('disabled');
+                        }
+                        
+                        // Mostra l'alert con il messaggio
+                        const alertDiv = document.getElementById('deliveryDisabledAlert');
+                        const messageSpan = document.getElementById('deliveryDisabledMessage');
+                        if (alertDiv && messageSpan) {
+                            messageSpan.textContent = deliveryMessaggio;
+                            alertDiv.style.display = 'block';
+                        }
+                        
+                        // LOG: Delivery disabilitato
+                        OrderLogger.info('Delivery disabilitato al caricamento');
+                    }
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Errore nel controllo stato delivery:", status, error);
+            }
+        });
+    }
+
+    // Seleziona modalità consegna
+    function selectDelivery(element) {
+        const selectedValue = element.getAttribute('data-value');
+        
+        // Se le consegne sono disabilitate e l'utente prova a selezionare Delivery
+        if (deliveryDisabilitato && selectedValue === 'Delivery') {
+            // Mostra toast di errore
+            showToast('error', deliveryMessaggio);
+            
+            // LOG: Tentativo selezione Delivery quando disabilitato
+            OrderLogger.validationError('deliveryType', 'Tentativo selezione Delivery quando disabilitato');
+            
+            return; // Non permettere la selezione
+        }
+        
+        document.querySelectorAll('.delivery-card').forEach(card => card.classList.remove('selected'));
+        element.classList.add('selected');
+        element.querySelector('input').checked = true;
+        
+        // LOG: Selezione modalità consegna
+        const deliveryType = element.querySelector('input').value;
+        OrderLogger.selection('deliveryType', deliveryType);
+    }
+
+    // Seleziona metodo pagamento
+    function selectPayment(element) {
+        document.querySelectorAll('.payment-card').forEach(card => card.classList.remove('selected'));
+        element.classList.add('selected');
+        element.querySelector('input').checked = true;
+        
+        // LOG: Selezione metodo pagamento
+        const paymentType = element.querySelector('input').value;
+        OrderLogger.selection('paymentType', paymentType);
+        
+        // Mostra/nascondi messaggio per pagamento POS
+        const posMessage = document.getElementById('posMessage');
+        if (posMessage) {
+            if (paymentType === 'Elettronico') {
+                posMessage.style.display = 'block';
+            } else {
+                posMessage.style.display = 'none';
+            }
+        }
+    }
+
+    function showStep(n) {
+        const steps = document.getElementsByClassName("step");
+        
+        // Nascondi tutti gli step
+        for (let i = 0; i < steps.length; i++) {
+            steps[i].classList.remove("active");
+        }
+        
+        // Mostra lo step corrente
+        steps[n].classList.add("active");
+        
+        // Popola orari quando arrivi allo step 2
+        if (n == 2) {
+            const select = $("#time");
+            if (select.find('option').length <= 1) {
+                const now = new Date();
+                const currentHours = now.getHours();
+                const currentMinutes = now.getMinutes();
+
+                let start = 19 * 60 + 30; // 19:30 in minuti
+                const end = 23 * 60; // 23:00 in minuti
+
+                for (let i = start; i <= end; i += 15) {
+                    const hours = Math.floor(i / 60);
+                    const minutes = i % 60;
+
+                    if (hours > currentHours || (hours === currentHours && minutes > currentMinutes)) {
+                        const time = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+                        select.append(new Option(time, time));
+                    }
+                }
+            }
+        }
+
+        // Aggiorna progress bar
+        updateProgressBar(n);
+
+        // Gestisci bottoni
+        const isLastStep = n == (steps.length - 1);
+        
+        $("#prevBtn").toggle(n != 0 && !isLastStep);
+        
+        const paymentType = $('input[name="paymentType"]:checked').val();
+        if (isLastStep) {
+            if (paymentType === "Carta") {
+                $("#nextBtn").html('Paga Ora <i class="fas fa-credit-card"></i>');
+            } else {
+                $("#nextBtn").html('Conferma Ordine <i class="fas fa-check"></i>');
+            }
+        } else {
+            $("#nextBtn").html('Avanti <i class="fas fa-arrow-right"></i>');
+        }
+    }
+
+    function updateProgressBar(step) {
+        const totalSteps = 5;
+        const progressPercent = (step / (totalSteps - 1)) * 100;
+        document.getElementById('progressLine').style.width = `${progressPercent}%`;
+        
+        document.querySelectorAll('.step-indicator').forEach((indicator, index) => {
+            indicator.classList.remove('active', 'completed');
+            if (index < step) {
+                indicator.classList.add('completed');
+                indicator.querySelector('.step-circle').innerHTML = '<i class="fas fa-check"></i>';
+            } else if (index === step) {
+                indicator.classList.add('active');
+                indicator.querySelector('.step-circle').textContent = index + 1;
+            } else {
+                indicator.querySelector('.step-circle').textContent = index + 1;
+            }
+        });
+    }
+
+    function nextPrev(n) {
+        const steps = document.getElementsByClassName("step");
+        const previousStep = currentStep;
+
+        if (n === 1 && !validateStep()) {
+            // LOG: Validazione fallita, non avanza
+            OrderLogger.info(`Tentativo avanzamento Step ${currentStep} fallito (validazione)`);
+            return false;
+        }
+
+        steps[currentStep].classList.remove("active");
+        currentStep += n;
+        
+        // LOG: Cambio step
+        OrderLogger.stepChange(previousStep, currentStep);
+
+        // Se siamo all'ultimo step
+        if (currentStep >= steps.length - 1) {
+            updateSummary();
+            currentStep = steps.length - 1;
+            riepilogo();
+
+            // Rimuovi eventuali listener precedenti e aggiungi nuovo
+            const nextBtn = document.getElementById("nextBtn");
+            const newBtn = nextBtn.cloneNode(true);
+            nextBtn.parentNode.replaceChild(newBtn, nextBtn);
+            
+            newBtn.addEventListener("click", function() {
+                const paymentType = document.querySelector('input[name="paymentType"]:checked')?.value;
+                if (paymentType === "Carta") {
+                    paga();
+                } else {
+                    ordina();
+                }
+            });
+
+            showStep(currentStep);
+            window.scrollTo(0, 0);
+            return;
+        }
+
+        showStep(currentStep);
+        window.scrollTo(0, 0);
+    }
+
+    function validateStep() {
+        const steps = document.getElementsByClassName("step");
+        const inputs = steps[currentStep].querySelectorAll("input, select");
+        let valid = true;
+        let invalidFields = [];
+
+        inputs.forEach(input => {
+            if (!input.checkValidity()) {
+                input.classList.add("is-invalid");
+                valid = false;
+                // LOG: Campo non valido
+                const fieldName = input.name || input.id || 'unknown';
+                invalidFields.push(fieldName);
+                OrderLogger.validationError(fieldName, `Campo ${fieldName} non valido`);
+            } else {
+                input.classList.remove("is-invalid");
+            }
+        });
+
+        // Step 0: Verifica modalità consegna
+        if (currentStep === 0) {
+            const deliveryType = document.querySelector('input[name="deliveryType"]:checked');
+            if (!deliveryType) {
+                showToast('error', 'Seleziona una modalità di consegna');
+                valid = false;
+                // LOG: Modalità consegna non selezionata
+                OrderLogger.validationError('deliveryType', 'Modalità consegna non selezionata');
+            } else if (deliveryDisabilitato && deliveryType.value === 'Delivery') {
+                // Doppio controllo: se per qualche motivo è stato selezionato Delivery quando è disabilitato
+                showToast('error', deliveryMessaggio);
+                valid = false;
+                // LOG: Delivery selezionato quando disabilitato
+                OrderLogger.validationError('deliveryType', 'Delivery selezionato quando disabilitato');
+            }
+        }
+
+        // Step 3: Verifica metodo pagamento
+        if (currentStep === 3) {
+            const paymentType = document.querySelector('input[name="paymentType"]:checked');
+            if (!paymentType) {
+                showToast('error', 'Seleziona un metodo di pagamento');
+                valid = false;
+                // LOG: Metodo pagamento non selezionato
+                OrderLogger.validationError('paymentType', 'Metodo pagamento non selezionato');
+            }
+        }
+
+        // LOG: Riepilogo validazione
+        if (!valid) {
+            OrderLogger.error(`Validazione Step ${currentStep} fallita`, `Campi invalidi: ${invalidFields.join(', ')}`);
+        }
+
+        return valid;
+    }
+
+    function updateSummary() {
+        const deliveryType = document.querySelector('input[name="deliveryType"]:checked');
+        const paymentType = document.querySelector('input[name="paymentType"]:checked');
+        
+        document.getElementById("summaryDelivery").textContent = deliveryType ? deliveryType.value : '-';
+        document.getElementById("summaryName").textContent = document.getElementById("name").value + " " + document.getElementById("surname").value;
+        document.getElementById("summaryAddress").textContent = document.getElementById("address").value;
+        document.getElementById("summaryPhone").textContent = document.getElementById("phone").value;
+        document.getElementById("summaryEmail").textContent = document.getElementById("email").value;
+        document.getElementById("summaryTime").textContent = document.getElementById("time").value;
+        document.getElementById("summaryPayment").textContent = paymentType ? paymentType.value : '-';
+    }
+
+    function riepilogo() {
+        // LOG: Caricamento riepilogo
+        OrderLogger.info('Caricamento riepilogo ordine');
+        
+        $.ajax({
+            type: "POST",
+            url: 'action.php?_action=riepilogo',
+            dataType: 'json',
+            success: function (result) {
+                if (result.status === 1) {
+                    const ordineTableBody = $("#ordineTableBody");
+                    ordineTableBody.empty();
+                    
+                    // LOG: Prodotti nel carrello
+                    OrderLogger.log('riepilogo_loaded', {
+                        fieldName: 'prodotti',
+                        fieldValue: result.data.prodotti.length.toString(),
+                        message: `Riepilogo caricato: ${result.data.prodotti.length} prodotti, Totale: €${result.data.totale.toFixed(2)}`
+                    });
+                    
+                    result.data.prodotti.forEach(prodotto => {
+                        const prodottoRow = `
+                            <div class="order-item">
+                                <div>
+                                    <div class="order-item-name">${prodotto.nomeProdotto}</div>
+                                    <div class="order-item-qty">Quantità: ${prodotto.quantita}</div>
+                                </div>
+                                <div class="order-item-price">€${prodotto.subtotale.toFixed(2)}</div>
+                            </div>
+                        `;
+                        ordineTableBody.append(prodottoRow);
+                    });
+
+                    $("#riepilogoTotale").text(`€${result.data.totale.toFixed(2)}`);
+
+                } else {
+                    // LOG: Errore caricamento riepilogo
+                    OrderLogger.error('Errore caricamento riepilogo', 'Status 0');
+                    showToast('error', 'Errore durante il caricamento del riepilogo.');
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Errore nella richiesta AJAX:", status, error);
+                // LOG: Errore AJAX riepilogo
+                OrderLogger.ajaxError('riepilogo', xhr, status, error);
+                showToast('error', 'Si è verificato un errore. Riprova più tardi.');
+            }
+        });
+    }
+
+    function paga() {
+        const nome = $('#name').val();
+        const cognome = $('#surname').val();
+        const indirizzo = $('#address').val();
+        const telefono = $('#phone').val();
+        const email = $('#email').val();
+        const orarioConsegna = $('#time').val();
+        const note = $('#notes').val();
+        const deliveryType = $('input[name="deliveryType"]:checked').val();
+        const paymentType = $('input[name="paymentType"]:checked').val();
+
+        // LOG: Inizio processo pagamento
+        OrderLogger.info('Inizio processo pagamento con carta');
+        OrderLogger.log('payment_start', {
+            fieldName: 'dati_ordine',
+            fieldValue: JSON.stringify({nome, cognome, email, telefono, indirizzo, orarioConsegna, deliveryType, paymentType}),
+            message: 'Dati ordine per pagamento'
+        });
+
+        $("#loader").addClass('active');
+
+        $.ajax({
+            type: "POST",
+            url: 'action.php?_action=salvaInformazioniPagamento',
+            dataType: 'json',
+            data: {
+                nome: nome,
+                cognome: cognome,
+                indirizzo: indirizzo,
+                telefono: telefono,
+                email: email,
+                orarioConsegna: orarioConsegna,
+                note: note,
+                deliveryType: deliveryType,
+                paymentType: paymentType
+            },
+            success: function(result) {
+                if (result.status === 1) {
+                    // LOG: Salvataggio informazioni OK
+                    OrderLogger.info('Informazioni pagamento salvate con successo');
+                    
+                    $.ajax({
+                        type: "POST",
+                        url: 'action.php?_action=riepilogo',
+                        dataType: 'json',
+                        success: function(result) {
+                            if (result.status === 1) {
+                                const amount = result.data.totale;
+                                
+                                // LOG: Totale recuperato
+                                OrderLogger.info(`Totale ordine: €${amount}`);
+                                
+                                $.ajax({
+                                    type: "POST",
+                                    url: 'action.php?_action=Paga',
+                                    dataType: 'json',
+                                    success: function(paymentResult) {
+                                        console.log(paymentResult);
+                                        $("#loader").removeClass('active');
+                                        
+                                        if (paymentResult && paymentResult.client_secret) {
+                                            // LOG: Pagamento avviato con successo
+                                            OrderLogger.orderComplete('Carta');
+                                            OrderLogger.info('Redirect a Stripe per pagamento');
+                                            window.location.href = `pagaStripe.html?client_secret=${encodeURIComponent(paymentResult.client_secret)}&amount=${amount}`;
+                                        } else {
+                                            console.error("Errore nell'elaborazione del pagamento:", paymentResult.message || "Nessun messaggio di errore.");
+                                            // LOG: Errore pagamento
+                                            OrderLogger.error('Errore elaborazione pagamento', paymentResult.message || 'Nessun client_secret ricevuto');
+                                            showToast('error', 'Si è verificato un errore nel pagamento. Riprova più tardi.');
+                                        }
+                                    },
+                                    error: function(xhr, status, error) {
+                                        $("#loader").removeClass('active');
+                                        console.error("Errore nella richiesta di pagamento:", error);
+                                        // LOG: Errore AJAX Paga
+                                        OrderLogger.ajaxError('Paga', xhr, status, error);
+                                        showToast('error', 'Errore di comunicazione con il server. Riprova più tardi.');
+                                    }
+                                });
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            $("#loader").removeClass('active');
+                            console.error("Errore nel recupero del totale:", error);
+                            // LOG: Errore AJAX riepilogo
+                            OrderLogger.ajaxError('riepilogo', xhr, status, error);
+                            showToast('error', 'Errore nel recupero del totale. Riprova più tardi.');
+                        }
+                    });
+                } else {
+                    $("#loader").removeClass('active');
+                    console.error("Errore nel salvataggio dell'ordine:", result);
+                    // LOG: Errore salvataggio informazioni
+                    OrderLogger.error('Errore salvataggio informazioni pagamento', result.message || 'Status 0');
+                    showToast('error', 'Impossibile completare l\'ordine. Verifica i tuoi dati e riprova.');
+                }
+            },
+            error: function(xhr, status, error) {
+                $("#loader").removeClass('active');
+                console.error("Errore nel salvataggio dell'ordine:", error);
+                // LOG: Errore AJAX salvaInformazioniPagamento
+                OrderLogger.ajaxError('salvaInformazioniPagamento', xhr, status, error);
+                showToast('error', 'Errore di comunicazione. Riprova più tardi.');
+            }
+        });
+    }
+
+    function ordina() {
+        const nome = $('#name').val();
+        const cognome = $('#surname').val();
+        const indirizzo = $('#address').val();
+        const telefono = $('#phone').val();
+        const email = $('#email').val();
+        const orarioConsegna = $('#time').val();
+        const note = $('#notes').val();
+        const deliveryType = $('input[name="deliveryType"]:checked').val();
+        const paymentType = $('input[name="paymentType"]:checked').val();
+
+        // LOG: Inizio processo ordine contanti
+        OrderLogger.info('Inizio processo ordine con pagamento contanti');
+        OrderLogger.log('order_submit', {
+            fieldName: 'dati_ordine',
+            fieldValue: JSON.stringify({nome, cognome, email, telefono, indirizzo, orarioConsegna, deliveryType, paymentType}),
+            message: 'Dati ordine inviati'
+        });
+
+        $("#loader").addClass('active');
+
+        $.ajax({
+            type: "POST",
+            url: 'action.php?_action=ordina',
+            dataType: 'json',
+            data: {
+                nome: nome,
+                cognome: cognome,
+                indirizzo: indirizzo,
+                telefono: telefono,
+                email: email,
+                orarioConsegna: orarioConsegna,
+                note: note,
+                deliveryType: deliveryType,
+                paymentType: paymentType
+            },
+            success: function(result) {
+                console.log(result);
+                if (result.status === 1) {
+                    $("#loader").removeClass('active');
+                    // LOG: Ordine completato con successo
+                    OrderLogger.orderComplete('Contanti');
+                    OrderLogger.info('Ordine confermato, redirect a conclusione');
+                    window.location.href = 'conclusione.html';
+                } else {
+                    $("#loader").removeClass('active');
+                    console.error("Errore nell'elaborazione dell'ordine:", result.message);
+                    // LOG: Errore ordine
+                    OrderLogger.error('Errore elaborazione ordine', result.message || 'Status 0');
+                    showToast('error', 'Si è verificato un errore. Riprova più tardi.');
+                }
+            },
+            error: function(xhr, status, error) {
+                $("#loader").removeClass('active');
+                console.error("Errore nella richiesta AJAX:", error);
+                // LOG: Errore AJAX ordina
+                OrderLogger.ajaxError('ordina', xhr, status, error);
+                showToast('error', 'Errore di comunicazione con il server. Riprova più tardi.');
+            }
+        });
+    }
+
+    // Toast notification helper
+    function showToast(type, message) {
+        const container = document.getElementById('toastContainer');
+        const icon = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle';
+        
+        const toast = document.createElement('div');
+        toast.className = `toast-notification ${type}`;
+        toast.innerHTML = `
+            <i class="fas ${icon}"></i>
+            <span>${message}</span>
+        `;
+        
+        container.appendChild(toast);
+        
+        setTimeout(() => {
+            toast.style.animation = 'slideIn 0.3s ease reverse forwards';
+            setTimeout(() => toast.remove(), 300);
+        }, 3000);
+    }
+    </script>
+
+</body>
+</html>
+

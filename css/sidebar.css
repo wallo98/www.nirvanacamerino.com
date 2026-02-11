@@ -1,0 +1,709 @@
+/* ============================================
+   CARRELLO SIDEBAR - DESIGN MODERNO PREMIUM
+   ============================================ */
+
+/* Stile del carrello che scorre da destra */
+#carrello {
+    position: fixed;
+    right: -500px;
+    top: 0;
+    width: 420px;
+    max-width: 100vw;
+    height: 100vh;
+    height: 100dvh; /* Dynamic viewport height per mobile */
+    background: linear-gradient(165deg, #1a1f25 0%, #0d1117 50%, #161b22 100%);
+    box-shadow: -8px 0 40px rgba(0, 0, 0, 0.6),
+                -2px 0 15px rgba(250, 197, 100, 0.05);
+    transition: right 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    z-index: 9999;
+    color: #e6edf3;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid rgba(250, 197, 100, 0.15);
+}
+
+/* Carrello visibile */
+#carrello.show {
+    right: 0;
+}
+
+/* Overlay quando carrello è aperto */
+#carrello::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 200px;
+    background: radial-gradient(ellipse at top right, rgba(250, 197, 100, 0.08) 0%, transparent 60%);
+    pointer-events: none;
+}
+
+/* Header del carrello - primo div figlio */
+#carrello > div:first-child,
+#carrello > .border-bottom {
+    background: linear-gradient(135deg, rgba(250, 197, 100, 0.12) 0%, rgba(250, 197, 100, 0.08) 100%) !important;
+    border-bottom: 1px solid rgba(250, 197, 100, 0.2) !important;
+    padding: 24px 20px !important;
+    position: relative;
+    flex-shrink: 0;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+#carrello > div:first-child::after,
+#carrello > .border-bottom::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 20px;
+    right: 20px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(250, 197, 100, 0.4), transparent);
+}
+
+/* Titolo carrello */
+#carrello .cart-title {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: #fac564;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-shadow: 0 2px 10px rgba(250, 197, 100, 0.3);
+}
+
+#carrello .cart-title i {
+    font-size: 1.4rem;
+    color: #fac564;
+}
+
+/* Pulsante chiusura */
+#carrello .close-cart {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #8b949e;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+
+#carrello .close-cart:hover {
+    background: rgba(250, 197, 100, 0.2);
+    border-color: #fac564;
+    color: #fac564;
+    transform: rotate(90deg);
+}
+
+/* Area contenuto scrollabile - FIX SCROLL - secondo div figlio */
+#carrello > div:nth-child(2) {
+    flex: 1 1 auto !important;
+    min-height: 0 !important; /* CRITICO: permette al flex item di shrinkare e abilitare lo scroll */
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    padding: 20px !important;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(250, 197, 100, 0.3) transparent;
+    /* Smooth scroll per iOS */
+    -webkit-overflow-scrolling: touch;
+    /* Margine per non tagliare l'ultimo elemento */
+    padding-bottom: 24px !important;
+}
+
+#carrello > div:nth-child(2)::-webkit-scrollbar {
+    width: 6px;
+}
+
+#carrello > div:nth-child(2)::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+#carrello > div:nth-child(2)::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #fac564 0%, #fac564 100%);
+    border-radius: 3px;
+}
+
+/* Table-responsive fix - non deve bloccare lo scroll del contenitore padre */
+#carrello .table-responsive {
+    overflow: visible !important;
+    max-height: none !important;
+}
+
+/* Tabella carrello */
+#cartTable {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 12px;
+}
+
+#cartTable thead {
+    display: none;
+}
+
+#cartTable tbody tr {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.02) 100%);
+    border-radius: 14px;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 16px 18px;
+    margin-bottom: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
+
+#cartTable tbody tr::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: linear-gradient(180deg, #fac564 0%, #fac564 100%);
+    border-radius: 3px 0 0 3px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+#cartTable tbody tr:hover {
+    background: linear-gradient(135deg, rgba(250, 197, 100, 0.1) 0%, rgba(250, 197, 100, 0.06) 100%);
+    border-color: rgba(250, 197, 100, 0.25);
+    transform: translateX(-4px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2),
+                0 0 30px rgba(250, 197, 100, 0.05);
+}
+
+#cartTable tbody tr:hover::before {
+    opacity: 1;
+}
+
+/* Celle della tabella */
+#cartTable td {
+    padding: 0;
+    border: none;
+    vertical-align: middle;
+}
+
+#cartTable td:first-child {
+    flex: 1;
+    font-weight: 500;
+    color: #e6edf3;
+    font-size: 0.95rem;
+    padding-right: 10px;
+}
+
+#cartTable td:nth-child(2) {
+    color: #fac564;
+    font-weight: 600;
+    font-size: 1rem;
+    min-width: 60px;
+    text-align: center;
+}
+
+#cartTable td:nth-child(3) {
+    padding: 0 10px;
+}
+
+#cartTable td:last-child {
+    flex-shrink: 0;
+}
+
+/* Controlli quantità */
+#cartTable .input-group {
+    display: flex;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 25px;
+    padding: 4px;
+    gap: 2px;
+}
+
+#cartTable .input-group button {
+    width: 30px;
+    height: 30px;
+    border-radius: 50% !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: none !important;
+    color: #8b949e !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    padding: 0 !important;
+}
+
+#cartTable .input-group button:hover {
+    background: rgba(250, 197, 100, 0.2) !important;
+    color: #fac564 !important;
+    transform: scale(1.1);
+}
+
+#cartTable .input-group button i {
+    font-size: 0.75rem;
+}
+
+#cartTable .input-group input {
+    width: 35px;
+    height: 30px;
+    background: transparent !important;
+    border: none !important;
+    color: #fff !important;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-align: center;
+    padding: 0;
+}
+
+/* Pulsante elimina */
+#cartTable .delete-btn {
+    background: rgba(220, 53, 69, 0.15) !important;
+    border: 1px solid rgba(220, 53, 69, 0.3) !important;
+    color: #ff6b7a !important;
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+#cartTable .delete-btn:hover {
+    background: rgba(220, 53, 69, 0.3) !important;
+    border-color: #dc3545 !important;
+    transform: scale(1.05);
+}
+
+#cartTable .delete-btn i {
+    font-size: 0.75rem;
+}
+
+/* Riga totale */
+#cartTable tbody tr.border-top {
+    background: linear-gradient(135deg, rgba(250, 197, 100, 0.18) 0%, rgba(250, 197, 100, 0.12) 100%);
+    border: 1px solid rgba(250, 197, 100, 0.35);
+    padding: 20px 22px;
+    margin-top: 20px;
+    box-shadow: 0 -4px 20px rgba(250, 197, 100, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+}
+
+#cartTable tbody tr.border-top::before {
+    opacity: 1;
+    background: linear-gradient(180deg, #fac564 0%, #fac564 50%, #fac564 100%);
+    width: 4px;
+}
+
+#cartTable tbody tr.border-top td {
+    flex: 1;
+    text-align: right;
+}
+
+#cartTable tbody tr.border-top strong {
+    font-size: 1.3rem;
+    color: #fac564;
+    font-family: 'Josefin Sans', sans-serif;
+    text-shadow: 0 2px 12px rgba(250, 197, 100, 0.4);
+    letter-spacing: 0.5px;
+}
+
+/* Carrello vuoto */
+#cartTable tbody tr td[colspan] {
+    width: 100%;
+    text-align: center;
+    color: #6e7681;
+    padding: 40px 20px;
+    font-size: 1rem;
+}
+
+/* Footer carrello - SEMPRE VISIBILE - ultimo div figlio */
+#carrello > div:last-child,
+#carrello > .border-top {
+    background: linear-gradient(180deg, rgba(13, 17, 23, 0.95) 0%, rgba(13, 17, 23, 0.98) 100%) !important;
+    border-top: 1px solid rgba(250, 197, 100, 0.2) !important;
+    padding: 20px !important;
+    flex-shrink: 0 !important;
+    position: relative;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+/* Linea decorativa sopra il footer */
+#carrello > div:last-child::before,
+#carrello > .border-top::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 20px;
+    right: 20px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(250, 197, 100, 0.5), transparent);
+}
+
+/* Pulsante Ordina Ora */
+#ordine-container {
+    display: block;
+    width: 100%;
+    padding: 18px 24px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    font-family: 'Poppins', sans-serif;
+    color: #0d1117;
+    background: linear-gradient(135deg, #fac564 0%, #e5b45a 100%);
+    border: none;
+    border-radius: 14px;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-shadow: 0 4px 20px rgba(250, 197, 100, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.35);
+    position: relative;
+    overflow: hidden;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+#ordine-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transition: left 0.5s ease;
+}
+
+#ordine-container:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 35px rgba(250, 197, 100, 0.55),
+                inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    color: #0d1117;
+    text-decoration: none;
+    background: linear-gradient(135deg, #ffd280 0%, #fac564 100%);
+}
+
+#ordine-container:hover::before {
+    left: 100%;
+}
+
+#ordine-container:active {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(250, 197, 100, 0.4);
+}
+
+/* ============================================
+   PULSANTE CARRELLO FLOTTANTE
+   ============================================ */
+
+#btnCarrello {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    z-index: 10000;
+    padding: 16px 24px;
+    font-size: 1rem;
+    font-weight: 700;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #fac564 0%, #e5b45a 100%);
+    border: none;
+    border-radius: 50px;
+    color: #0d1117;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-shadow: 0 4px 25px rgba(250, 197, 100, 0.45),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    letter-spacing: 0.3px;
+}
+
+#btnCarrello:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 40px rgba(250, 197, 100, 0.6),
+                inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    background: linear-gradient(135deg, #ffd280 0%, #fac564 100%);
+}
+
+#btnCarrello:active {
+    transform: translateY(-1px) scale(0.98);
+    box-shadow: 0 3px 15px rgba(250, 197, 100, 0.4);
+}
+
+#btnCarrello i {
+    font-size: 1.2rem;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+}
+
+/* Badge prodotti nel carrello */
+#cartBadge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    min-width: 26px;
+    height: 26px;
+    padding: 0 6px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+    border: 2px solid #0d1117;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 3px 12px rgba(220, 53, 69, 0.5);
+    animation: pulse-badge 2s ease-in-out infinite;
+}
+
+@keyframes pulse-badge {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+/* ============================================
+   RESPONSIVE DESIGN - MOBILE ELEGANTE
+   ============================================ */
+
+@media (max-width: 768px) {
+    #carrello {
+        width: 100%;
+        right: -100%;
+    }
+    
+    #btnCarrello {
+        right: 16px;
+        bottom: 16px;
+        padding: 14px 20px;
+        font-size: 0.9rem;
+    }
+    
+    #btnCarrello span:not(#cartBadge) {
+        display: none;
+    }
+    
+    #btnCarrello i {
+        margin: 0;
+    }
+    
+    /* ========== MOBILE CART ITEMS - LISTA ELEGANTE ========== */
+    
+    /* Reset stile card - diventa lista pulita */
+    #cartTable {
+        border-spacing: 0 !important;
+    }
+    
+    #cartTable tbody tr {
+        background: transparent !important;
+        border: none !important;
+        border-radius: 0 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        display: grid !important;
+        grid-template-columns: 1fr auto auto auto;
+        grid-template-rows: auto auto;
+        gap: 6px 12px;
+        align-items: center;
+        padding: 14px 0 !important;
+        border-bottom: 1px solid rgba(250, 197, 100, 0.1) !important;
+        backdrop-filter: none !important;
+        position: relative;
+    }
+    
+    #cartTable tbody tr::before {
+        display: none !important;
+    }
+    
+    #cartTable tbody tr:last-child {
+        border-bottom: none !important;
+    }
+    
+    #cartTable tbody tr:hover {
+        background: rgba(250, 197, 100, 0.03) !important;
+        transform: none !important;
+        box-shadow: none !important;
+    }
+    
+    /* Nome prodotto - riga superiore, occupa tutta la larghezza */
+    #cartTable td:first-child {
+        grid-column: 1 / -1;
+        grid-row: 1;
+        font-size: 0.95rem !important;
+        font-weight: 600 !important;
+        color: #fff !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        letter-spacing: 0.3px;
+    }
+    
+    /* Prezzo - riga inferiore, sinistra */
+    #cartTable td:nth-child(2) {
+        grid-column: 1;
+        grid-row: 2;
+        font-size: 0.9rem !important;
+        color: #fac564 !important;
+        font-weight: 600 !important;
+        text-align: left !important;
+        min-width: auto !important;
+    }
+    
+    /* Quantità - riga inferiore, centro */
+    #cartTable td:nth-child(3) {
+        grid-column: 2;
+        grid-row: 2;
+        padding: 0 !important;
+    }
+    
+    /* Controlli quantità compatti */
+    #cartTable .input-group {
+        background: rgba(255, 255, 255, 0.08) !important;
+        border-radius: 20px !important;
+        padding: 2px !important;
+        gap: 0 !important;
+    }
+    
+    #cartTable .input-group button {
+        width: 26px !important;
+        height: 26px !important;
+        background: transparent !important;
+    }
+    
+    #cartTable .input-group button:hover {
+        background: rgba(250, 197, 100, 0.15) !important;
+    }
+    
+    #cartTable .input-group input {
+        width: 28px !important;
+        height: 26px !important;
+        font-size: 0.85rem !important;
+    }
+    
+    /* Pulsante elimina - riga inferiore, destra */
+    #cartTable td:last-child {
+        grid-column: 3;
+        grid-row: 2;
+    }
+    
+    /* Elimina diventa solo icona circolare */
+    #cartTable .delete-btn {
+        width: 32px !important;
+        height: 32px !important;
+        padding: 0 !important;
+        border-radius: 50% !important;
+        background: rgba(220, 53, 69, 0.1) !important;
+        border: 1px solid rgba(220, 53, 69, 0.2) !important;
+        justify-content: center !important;
+        gap: 0 !important;
+    }
+    
+    #cartTable .delete-btn:hover {
+        background: rgba(220, 53, 69, 0.25) !important;
+    }
+    
+    #cartTable .delete-btn span {
+        display: none !important;
+    }
+    
+    #cartTable .delete-btn i {
+        font-size: 0.8rem !important;
+        margin: 0 !important;
+    }
+    
+    /* Riga totale - stile speciale */
+    #cartTable tbody tr.border-top {
+        display: flex !important;
+        justify-content: space-between;
+        align-items: center;
+        background: linear-gradient(135deg, rgba(250, 197, 100, 0.12) 0%, rgba(250, 197, 100, 0.06) 100%) !important;
+        border: 1px solid rgba(250, 197, 100, 0.2) !important;
+        border-radius: 12px !important;
+        padding: 16px !important;
+        margin-top: 16px !important;
+    }
+    
+    #cartTable tbody tr.border-top td {
+        grid-column: auto !important;
+        grid-row: auto !important;
+    }
+    
+    #cartTable tbody tr.border-top strong {
+        font-size: 1.15rem !important;
+    }
+    
+    /* Footer mobile */
+    #ordine-container {
+        padding: 16px 20px !important;
+        font-size: 1rem !important;
+        border-radius: 12px !important;
+    }
+    
+    /* Header mobile */
+    #carrello > div:first-child {
+        padding: 20px 16px !important;
+    }
+    
+    #carrello .cart-title {
+        font-size: 1.4rem;
+    }
+    
+    /* Contenuto mobile */
+    #carrello > div:nth-child(2) {
+        padding: 12px 16px !important;
+    }
+    
+    /* Footer mobile */
+    #carrello > div:last-child {
+        padding: 16px !important;
+    }
+}
+
+/* ========== EXTRA SMALL - iPhone SE e simili ========== */
+@media (max-width: 380px) {
+    #cartTable td:first-child {
+        font-size: 0.88rem !important;
+    }
+    
+    #cartTable td:nth-child(2) {
+        font-size: 0.85rem !important;
+    }
+    
+    #cartTable .input-group button {
+        width: 24px !important;
+        height: 24px !important;
+    }
+    
+    #cartTable .input-group input {
+        width: 24px !important;
+        font-size: 0.8rem !important;
+    }
+    
+    #cartTable .delete-btn {
+        width: 28px !important;
+        height: 28px !important;
+    }
+    
+    #ordine-container {
+        padding: 14px 16px !important;
+        font-size: 0.95rem !important;
+    }
+}

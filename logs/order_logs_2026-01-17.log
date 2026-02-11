@@ -1,0 +1,43 @@
+[2026-01-17 03:44:54] [CART:2509] [IP:185.241.144.238] [ORDER_START] Step:0 | Utente ha iniziato il processo di ordine
+[2026-01-17 03:45:05] [CART:2509] [IP:185.241.144.238] [SELECTION] Step:0 | Campo:deliveryType=Delivery | Selezionato deliveryType: Delivery
+[2026-01-17 03:45:11] [CART:2509] [IP:185.241.144.238] [STEP_CHANGE] Step:1 | Passaggio da Step 0 a Step 1
+[2026-01-17 13:01:29] [CART:2510] [IP:185.241.144.238] [ORDER_START] Step:0 | Utente ha iniziato il processo di ordine
+[2026-01-17 13:01:31] [CART:2510] [IP:185.241.144.238] [SELECTION] Step:0 | Campo:deliveryType=Delivery | Selezionato deliveryType: Delivery
+[2026-01-17 13:01:32] [CART:2510] [IP:185.241.144.238] [STEP_CHANGE] Step:1 | Passaggio da Step 0 a Step 1
+[2026-01-17 13:01:38] [CART:2510] [IP:185.241.144.238] [FIELD_INPUT] Step:1 | Campo:nome_blur=renato | Campo nome_blur aggiornato
+[2026-01-17 13:01:39] [CART:2510] [IP:185.241.144.238] [FIELD_INPUT] Step:1 | Campo:nome=renato | Campo nome aggiornato
+[2026-01-17 13:01:40] [CART:2510] [IP:185.241.144.238] [FIELD_INPUT] Step:1 | Campo:cognome_blur=lika | Campo cognome_blur aggiornato
+[2026-01-17 13:01:40] [CART:2510] [IP:185.241.144.238] [FIELD_INPUT] Step:1 | Campo:cognome=lika | Campo cognome aggiornato
+[2026-01-17 13:01:44] [CART:2510] [IP:185.241.144.238] [FIELD_INPUT] Step:1 | Campo:indirizzo= | Campo indirizzo aggiornato
+[2026-01-17 13:01:47] [CART:2510] [IP:185.241.144.238] [FIELD_INPUT] Step:1 | Campo:indirizzo_blur=delio di pietro bileggi | Campo indirizzo_blur aggiornato
+[2026-01-17 13:01:47] [CART:2510] [IP:185.241.144.238] [FIELD_INPUT] Step:1 | Campo:indirizzo=delio di pietro bileggi | Campo indirizzo aggiornato
+[2026-01-17 13:01:48] [CART:2510] [IP:185.241.144.238] [FIELD_INPUT] Step:1 | Campo:telefono_blur=3295695194 | Campo telefono_blur aggiornato
+[2026-01-17 13:01:49] [CART:2510] [IP:185.241.144.238] [FIELD_INPUT] Step:1 | Campo:telefono=3295695194 | Campo telefono aggiornato
+[2026-01-17 13:01:51] [CART:2510] [IP:185.241.144.238] [FIELD_INPUT] Step:1 | Campo:email=camerinowork@gmail.com | Campo email aggiornato
+[2026-01-17 13:01:51] [CART:2510] [IP:185.241.144.238] [FIELD_INPUT] Step:1 | Campo:email_blur=camerinowork@gmail.com | Campo email_blur aggiornato
+[2026-01-17 13:01:56] [CART:2510] [IP:185.241.144.238] [STEP_CHANGE] Step:2 | Passaggio da Step 1 a Step 2
+[2026-01-17 13:01:59] [CART:2510] [IP:185.241.144.238] [FIELD_INPUT] Step:2 | Campo:orario_consegna=21:30 | Campo orario_consegna aggiornato
+[2026-01-17 13:02:06] [CART:2510] [IP:185.241.144.238] [STEP_CHANGE] Step:1 | Passaggio da Step 2 a Step 1
+[2026-01-17 13:02:08] [CART:2510] [IP:185.241.144.238] [STEP_CHANGE] Step:0 | Passaggio da Step 1 a Step 0
+[2026-01-17 13:02:09] [CART:2510] [IP:185.241.144.238] [SELECTION] Step:0 | Campo:deliveryType=Asporto | Selezionato deliveryType: Asporto
+[2026-01-17 13:02:10] [CART:2510] [IP:185.241.144.238] [SELECTION] Step:0 | Campo:deliveryType=Delivery | Selezionato deliveryType: Delivery
+[2026-01-17 13:02:11] [CART:2510] [IP:185.241.144.238] [STEP_CHANGE] Step:1 | Passaggio da Step 0 a Step 1
+[2026-01-17 13:02:13] [CART:2510] [IP:185.241.144.238] [STEP_CHANGE] Step:2 | Passaggio da Step 1 a Step 2
+[2026-01-17 13:02:16] [CART:2510] [IP:185.241.144.238] [STEP_CHANGE] Step:3 | Passaggio da Step 2 a Step 3
+[2026-01-17 13:02:19] [CART:2510] [IP:185.241.144.238] [SELECTION] Step:3 | Campo:paymentType=Carta | Selezionato paymentType: Carta
+[2026-01-17 13:02:21] [CART:2510] [IP:185.241.144.238] [STEP_CHANGE] Step:4 | Passaggio da Step 3 a Step 4
+[2026-01-17 13:02:21] [CART:2510] [IP:185.241.144.238] [INFO] Step:4 | Caricamento riepilogo ordine
+[2026-01-17 13:02:21] [CART:2510] [IP:185.241.144.238] [RIEPILOGO_LOADED] Step:4 | Campo:prodotti=1 | Riepilogo caricato: 1 prodotti, Totale: €7.00
+[2026-01-17 13:02:25] [CART:2510] [IP:185.241.144.238] [STEP_CHANGE] Step:5 | Passaggio da Step 4 a Step 5
+[2026-01-17 13:02:25] [CART:2510] [IP:185.241.144.238] [INFO] Step:4 | Caricamento riepilogo ordine
+[2026-01-17 13:02:25] [CART:2510] [IP:185.241.144.238] [PAYMENT_START] Step:4 | Campo:dati_ordine={"nome":"renato","cognome":"lika","email":"camerinowork@gmail.com","telefono":"3295695194","indirizzo":"delio di pietro bileggi","orarioConsegna":"21:30","deliveryType":"Delivery","paymentType":"Carta"} | Dati ordine per pagamento
+[2026-01-17 13:02:25] [CART:2510] [IP:185.241.144.238] [INFO] Step:4 | Inizio processo pagamento con carta
+[2026-01-17 13:02:25] [CART:2510] [IP:185.241.144.238] [RIEPILOGO_LOADED] Step:4 | Campo:prodotti=1 | Riepilogo caricato: 1 prodotti, Totale: €7.00
+[2026-01-17 13:02:26] [CART:2510] [IP:185.241.144.238] [INFO] Step:4 | Informazioni pagamento salvate con successo
+[2026-01-17 13:02:26] [CART:2510] [IP:185.241.144.238] [INFO] Step:4 | Totale ordine: €7
+[2026-01-17 13:02:26] [CART:2510] [IP:185.241.144.238] [ORDER_COMPLETE] Step:4 | Campo:paymentType=Carta | Ordine completato con pagamento: Carta
+[2026-01-17 13:02:26] [CART:2510] [IP:185.241.144.238] [INFO] Step:4 | Redirect a Stripe per pagamento
+[2026-01-17 15:03:42] [CART:2510] [IP:185.241.144.238] [ORDER_START] Step:0 | Utente ha iniziato il processo di ordine
+[2026-01-17 15:03:43] [CART:2510] [IP:185.241.144.238] [SELECTION] Step:0 | Campo:deliveryType=Delivery | Selezionato deliveryType: Delivery
+[2026-01-17 15:18:46] [CART:2510] [IP:185.241.144.238] [ORDER_START] Step:0 | Utente ha iniziato il processo di ordine
+[2026-01-17 17:31:23] [CART:2513] [IP:93.35.235.209] [ORDER_START] Step:0 | Utente ha iniziato il processo di ordine

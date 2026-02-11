@@ -1,0 +1,234 @@
+
+<?php 
+
+include 'librerie/Database.php';
+include 'librerie/metodi.php';
+
+$db = new Database();
+
+
+
+
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Pizza - Free Bootstrap 4 Template by Colorlib</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Josefin+Sans" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nothing+You+Could+Do" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/open-iconic-bootstrap.min.css">
+    <link rel="stylesheet" href="css/animate.css">
+    
+    <link rel="stylesheet" href="css/owl.carousel.min.css">
+    <link rel="stylesheet" href="css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="css/magnific-popup.css">
+
+    <link rel="stylesheet" href="css/aos.css">
+
+    <link rel="stylesheet" href="css/ionicons.min.css">
+
+    <link rel="stylesheet" href="css/bootstrap-datepicker.css">
+    <link rel="stylesheet" href="css/jquery.timepicker.css">
+
+    
+    <link rel="stylesheet" href="css/flaticon.css">
+    <link rel="stylesheet" href="css/icomoon.css">
+    <link rel="stylesheet" href="css/style.css">
+  </head>
+  <body>
+  <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+	    <div class="container">
+        <img src="images/logo.png" alt="Nirvana Logo" class="logo-img" style="max-height: 50px;">
+        <a class="navbar-brand" href="/home">
+            <br>Nirvana<small>Pub Pizzeria</small>
+            <br>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+	        <span class="oi oi-menu"></span> 
+	      </button>
+	      <div class="collapse navbar-collapse" id="ftco-nav">
+	        <ul class="navbar-nav ml-auto">
+	          <li class="nav-item"><a href="/home" class="nav-link">Home</a></li>
+	          <li class="nav-item"><a href="/menu" class="nav-link">Menu</a></li>
+	          <li class="nav-item"><a href="/menuKebab" class="nav-link">Secondo Menu</a></li>
+	          <li class="nav-item active"><a href="/blog" class="nav-link">Eventi</a></li>
+	          <li class="nav-item"><a href="/contatti" class="nav-link">Contatti</a></li>
+	        </ul>
+	      </div>
+		  </div>
+	  </nav>
+    <!-- END nav -->
+
+    <style>
+      .hero {
+      position: relative;
+      height: 50vh; /* Altezza metà pagina */
+      background-size: cover;
+      background-position: center;
+  }
+  
+  .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5); /* Overlay scuro con opacità */
+      z-index: 0; /* Posizionamento dell'overlay sopra l'immagine */
+  }
+  
+  .hero .container {
+      position: relative;
+      z-index: 0; /* Contenuto sopra l'overlay */
+  }
+
+  .hidden {
+  display: none;
+}
+
+  </style>
+  
+   
+  <section class="mt-5">
+    <div class="container">
+      <div class="row justify-content-center mb-5 pb-3">
+        <div class="col-md-7 heading-section ftco-animate text-center">
+          <h2 class="mb-4">I nostri eventi</h2>
+          <p>Festeggia con noi! Organizza il tuo giovedì universitario al Nirvana e goditi un'atmosfera vivace e ricordi indimenticabili.</p>
+        </div>
+      </div>
+      <div class="row d-flex" id="eventi-container">
+                <?php
+                $query = "SELECT * FROM eventi ORDER BY id_eventi DESC";
+                $eventi = get_data($query);
+
+                // Ciclo per iterare attraverso gli eventi e popolare la pagina
+                foreach ($eventi as $evento) {
+                    echo '
+                    <div class="col-md-4 d-flex ftco-animate">
+                        <div class="blog-entry align-self-stretch">
+                            <a class="block-20" style="background-image: url(\'images/' . $evento['immagine'] . '\');">
+                            </a>
+                            <div class="text py-4 d-block">
+                                <div class="meta">
+                                    <div><a href="#">' . date('d M, Y', strtotime($evento['data_evento'])) . '</a></div>
+                                    <div><a href="#">Admin</a></div>
+                                    <div><a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a></div>
+                                </div>
+                                <h3 class="heading mt-2"><a href="#">' . $evento['titolo'] . '</a></h3>
+                                <p>' . $evento['descrizione'] . '</p>
+                            </div>
+                        </div>
+                    </div>
+                    ';
+                }
+                ?>
+            </div>
+        <div class="row mt-2">
+            <div class="col text-center ftco-animate mb-5">
+              <button id="mostra-tutti" class="btn btn-primary">Mostra tutti gli eventi</button>
+            </div>
+          </div>
+    </div>
+</section>
+
+
+
+
+    <footer class="ftco-footer ftco-section img">
+      <div class="overlay"></div>
+      <div class="container">
+          <div class="row mb-5">
+          <div class="col-lg-4 col-md-6 mb-5">
+                  <div class="ftco-footer-widget mb-4">
+                      <h2 class="ftco-heading-2">Recapiti</h2>
+                      <div class="block-23 mb-3">
+                          <ul>
+                              <li><span class="icon icon-map-marker"></span><span class="text">Via Madonna delle carceri 4, Camerino, MC 62032</span></li>
+                              <li><span class="icon icon-phone"></span><span class="text">+39 389 694 5088</span></li>
+                              <li><span class="icon icon-envelope"></span><span class="text">nirvanacamerino@gmail.com</span></li>
+                          </ul>
+                      </div>
+                  </div>
+              </div>
+  
+              <div class="col-lg-4 col-md-6 mb-5">
+                  <div class="ftco-footer-widget mb-4 ml-md-4">
+                      <h2 class="ftco-heading-2">Pagine</h2>
+                      <ul class="list-unstyled">
+                        <li><a href="/home" class="py-2 d-block">Home</a></li>
+                        <li><a href="/menu" class="py-2 d-block">Menu</a></li>
+                        <li><a href="/menuKebab" class="py-2 d-block">Secondo Menu</a></li>
+                        <li><a href="/blog" class="py-2 d-block">Eventi</a></li>
+                        <li><a href="/contatti" class="py-2 d-block">Contatti</a></li>
+                    </ul>
+                  </div>
+              </div>
+  
+  
+          </div>
+          <div class="row">
+              <div class="col-md-12 text-center">
+                  <p>
+                      Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved
+                  </p>
+              </div>
+          </div>
+      </div>
+  </footer>
+  
+
+  <!-- loader -->
+  <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
+
+
+  <script src="js/jquery.min.js"></script>
+  <script src="js/jquery-migrate-3.0.1.min.js"></script>
+  <script src="js/popper.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/jquery.easing.1.3.js"></script>
+  <script src="js/jquery.waypoints.min.js"></script>
+  <script src="js/jquery.stellar.min.js"></script>
+  <script src="js/owl.carousel.min.js"></script>
+  <script src="js/jquery.magnific-popup.min.js"></script>
+  <script src="js/aos.js"></script>
+  <script src="js/bootstrap-datepicker.js"></script>
+  <script src="js/jquery.timepicker.min.js"></script>
+  <script src="js/scrollax.min.js"></script>
+  <script src="js/main.js"></script>
+    
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+  // Recupera tutti gli eventi
+  const eventi = document.querySelectorAll("#eventi-container .blog-entry");
+  
+  // Mostra solo i primi 6 eventi
+  eventi.forEach((evento, index) => {
+    if (index >= 6) {
+      evento.classList.add("hidden");
+    }
+  });
+
+  // Aggiungi l'evento al bottone per mostrare tutti gli eventi
+  const btnMostraTutti = document.getElementById("mostra-tutti");
+  btnMostraTutti.addEventListener("click", function () {
+    // Mostra tutti gli eventi
+    eventi.forEach(evento => {
+      evento.classList.remove("hidden");
+    });
+
+    // Nascondi il bottone dopo aver mostrato tutti gli eventi
+    btnMostraTutti.style.display = "none";
+  });
+});
+
+</script>
+
+  </body>
+</html>

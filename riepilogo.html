@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ordine</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Josefin+Sans" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nothing+You+Could+Do" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/open-iconic-bootstrap.min.css">
+    <link rel="stylesheet" href="css/animate.css">
+    
+    <link rel="stylesheet" href="css/owl.carousel.min.css">
+    <link rel="stylesheet" href="css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="css/magnific-popup.css">
+
+    <link rel="stylesheet" href="css/aos.css">
+
+    <link rel="stylesheet" href="css/ionicons.min.css">
+
+    <link rel="stylesheet" href="css/bootstrap-datepicker.css">
+    <link rel="stylesheet" href="css/jquery.timepicker.css">
+
+    
+    <link rel="stylesheet" href="css/flaticon.css">
+    <link rel="stylesheet" href="css/icomoon.css">
+    <link rel="stylesheet" href="css/style.css">
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+
+
+        .step {
+            display: none;
+        }
+        .step.active {
+            display: block;
+        }
+        .form-container {
+            max-width: 500px;
+            margin: auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            color: #000;
+        }
+        .buttons {
+            margin-top: 20px;
+        }
+        .form-control.is-invalid {
+            border-color: red;
+        }
+        
+/* Applica il colore nero a tutti gli elementi tranne quelli nella navbar */
+*:not(.navbar *, .navbar, footer *, footer) {
+    color: #000 !important;
+}
+
+footer .meta div {
+    color: #fff !important; /* Imposta il colore del testo a bianco */
+}
+
+
+
+/* Sovrascrivi il colore del testo e del background per i textarea con la classe form-control */
+textarea.form-control, select.form-control {
+    color: #000 !important;
+    background-color: #fff !important;
+}
+
+textarea.form-control::placeholder, select.form-control::placeholder {
+    color: #000 !important;
+    opacity: 1;
+}
+
+input.form-control, textarea.form-control, select.form-control {
+    border: 1px solid #000 !important;
+    color: #000 !important;
+}
+
+input.form-control:focus, textarea.form-control:focus, select.form-control:focus {
+    border-color: #000 !important;
+    box-shadow: none !important;
+}
+
+.deliveryOption {
+    margin: 10px;
+    font-size: 18px;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: 2px solid #FAC564 !important; /* Colore del bordo */
+    background-color: transparent;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Transizione per un effetto più fluido */
+}
+
+.deliveryOption span {
+    margin-right: 10px;
+    font-size: 24px;
+}
+
+.deliveryOption input {
+    display: none;
+}
+
+.deliveryOption.active {
+    background-color: #FAC564 !important; /* Colore di sfondo quando è attivo */
+    color: white; /* Colore del testo quando è attivo */
+    border-color: #FAC564 !important; /* Mantiene il bordo anche quando attivo */
+}
+
+.deliveryOption:hover {
+    background-color: #FAC564 !important; /* Colore di sfondo al passaggio del mouse */
+    color: white; /* Colore del testo al passaggio del mouse */
+}
+
+#loader {
+    display: none; /* Nascondi il loader di default */
+    position: fixed; /* Posizione fissa */
+    left: 50%; /* Centro orizzontale */
+    top: 50%; /* Centro verticale */
+    transform: translate(-50%, -50%); /* Centra esattamente */
+    z-index: 1050; /* Assicurati che sia sopra altri contenuti */
+}
+
+
+input[type=text], select {
+width: 100%;
+padding: 12px 20px;
+margin: 8px 0;
+display: inline-block;
+border: 1px solid #ccc;
+border-radius: 4px;
+box-sizing: border-box;
+}
+
+input[type=tel], select {
+width: 100%;
+padding: 12px 20px;
+margin: 8px 0;
+display: inline-block;
+border: 1px solid #ccc;
+border-radius: 4px;
+box-sizing: border-box;
+}
+
+input[type=email], select {
+width: 100%;
+padding: 12px 20px;
+margin: 8px 0;
+display: inline-block;
+border: 1px solid #ccc;
+border-radius: 4px;
+box-sizing: border-box;
+}
+
+
+
+.paymentOption {
+    margin: 10px;
+    font-size: 18px;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: 2px solid #FAC564; /* Stesso colore del bordo */
+    background-color: transparent;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.paymentOption span {
+    margin-right: 10px;
+    font-size: 24px;
+}
+
+.paymentOption input {
+    display: none; /* Nascondi l'input radio */
+}
+
+.paymentOption.active {
+    background-color: #FAC564 !important; /* Colore di sfondo quando è attivo */
+    color: white; /* Colore del testo quando è attivo */
+    border-color: #FAC564 !important; /* Mantiene il bordo anche quando attivo */
+}
+
+.paymentOption:hover {
+    background-color: #FAC564 !important; /* Colore di sfondo al passaggio del mouse */
+    color: white; /* Colore del testo al passaggio del mouse */
+}
+
+
+
+
+
+    </style>
+</head>
+<body>
+
+    <div id="loader">
+        <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+        <div class="text-center">
+            <p>Attendere...</p>
+        </div>
+    </div>
+    <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+	    <div class="container">
+	      <a class="navbar-brand" href="index.html"><span class="flaticon-pizza-1 mr-1"></span>Nirvana<br><small>Pub Pizzeria</small></a>
+	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+	        <span class="oi oi-menu"></span> 
+	      </button>
+	      <div class="collapse navbar-collapse" id="ftco-nav">
+	        <ul class="navbar-nav ml-auto">
+	          <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+	          <li class="nav-item"><a href="menu.php" class="nav-link">Menu</a></li>
+	          <li class="nav-item"><a href="blog.php" class="nav-link">Blog</a></li>
+	          <li class="nav-item"><a href="contatti.html" class="nav-link">Contatti</a></li>
+	        </ul>
+	      </div>
+		  </div>
+	  </nav>
+
+      
+    <div class="container mt-5 mb-5 text-white-custom">
+        <div class="form-container  text-center">
+            <h1 class="mb-4 text-center">Completa il tuo ordine</h1>
+
+            <hr>
+
+            <form id="orderForm" onsubmit="return false;">
+
+                <!-- Step 1: Scelta tra Delivery o Asporto con bottoni e icone -->
+                <div class="step active">
+                    <h2 class="mb-4 text-center">Modalità di consegna</h2>
+                    <div class="btn-group-toggle" data-toggle="buttons">
+                        <label class="btn btn-outline-primary deliveryOption" id="deliveryButton">
+                            
+                            <input type="radio" name="deliveryType" value="Delivery" required autocomplete="off">
+                            <span class="fas fa-bicycle"></span> Delivery
+                        </label>
+                        <label class="btn btn-outline-primary deliveryOption" id="asportoButton">
+                            <input type="radio" name="deliveryType" value="Asporto" required autocomplete="off">
+                            <span class="fas fa-pizza-slice"></span> Asporto
+                        </label>
+                    </div>
+                </div>
+
+   
+
+                <!-- Step 2: Nome, Cognome, Indirizzo, Telefono, Email -->
+                <div class="step">
+                    <h2 class=" text-center">Informazioni personali</h2>
+                    <small class="mb-3 mt-0">riempire i campi contrassegnati da asterisco</small>
+                    <div>
+                        <label for="name">Nome*</label>
+                        <input type="text" id="name" name="name" placeholder="inserisci..." required>
+                    
+                        <label for="surname">Cognome*</label>
+                        <input type="text" id="surname" name="surname" placeholder="inserisci..." required>
+
+                        <label for="address">Indirizzo*</label>
+                        <input type="text" id="address" name="address" placeholder="inserisci..." required >
+
+                        <label for="phone">Numero di telefono*</label>
+                        <input type="tel" id="phone" name="phone" placeholder="inserisci..." required> 
+                    
+                        <label for="email">Email*</label>
+                        <input type="email" id="email" name="email" placeholder="inserisci..." required>
+                    
+                    
+                      
+                    </div>
+                  </div>
+
+                <!-- Step 3: Orario di consegna -->
+                <div class="step">
+                    <h3 class="mb-4  text-center">Scegli il tuo orario e metodo di pagamento</h3>
+                    <div class="form-group">
+                        <label for="time">orario preferito:</label>
+                        <select class="form-control" id="time" name="time" required>
+                            <option value="" disabled selected>Seleziona un orario</option>
+                            <!-- Orari a partire dalle 19:30 con intervalli di 15 minuti -->
+                        </select>
+                    </div>
+                    
+                    
+                </div>
+
+            <div class="step">
+                <label for="pay">Scegli il metodo di pagamento:</label>
+                <div class="btn-group-toggle" data-toggle="buttons">
+                    <label class="btn btn-outline-primary paymentOption" id="cardButton">
+                        <input type="radio" name="paymentType" value="Carta" required autocomplete="off">
+                        <span class="fas fa-money-check-alt"></span> Paga ora con Carta
+                    </label>
+                    <label class="btn btn-outline-primary paymentOption" id="cashButton">
+                        <input type="radio" name="paymentType" value="Contante" required autocomplete="off">
+                        <span class="fas fa-money-bill-wave"></span> Pagamento in Contante
+                    </label>
+                    <label class="btn btn-outline-primary paymentOption" id="posButton">
+                        <input type="radio" name="paymentType" value="Elettronico" required autocomplete="off">
+                        <span class="fas fa-money-check-alt"></span> Pagamento con POS
+                    </label>
+                </div>
+            </div>
+
+                <!-- Step 4: Riepilogo dell'ordine e riepilogo delle informazioni inserite -->
+                <div class="step">
+
+                    
+                    <!-- Card Riepilogo Ordine -->
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <h4>Riepilogo Ordine</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped" id="riepilogoOrdineTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Prodotto</th>
+                                            <th>Quantità</th>
+                                            <th>Subtotale</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="ordineTableBody">
+                                        <tr>
+                                            <td colspan="3" id="ordineVuoto">Caricamento dei dettagli dell'ordine...</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <p><strong>Totale:</strong> <span id="riepilogoTotale">€0.00</span></p>
+                        </div>
+                    </div>
+
+                    <!-- Card Riepilogo Informazioni -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Riepilogo Informazioni</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <tbody id="riepilogoInfoTable">
+                                        <tr>
+                                            <th>Modalità di consegna</th>
+                                            <td id="summaryDelivery"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Nome e Cognome</th>
+                                            <td id="summaryName"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Indirizzo</th>
+                                            <td id="summaryAddress"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Numero di telefono</th>
+                                            <td id="summaryPhone"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Email</th>
+                                            <td id="summaryEmail"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Orario</th>
+                                            <td id="summaryTime"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group mt-4">
+                        <label for="notes">Note varie:</label>
+                        <textarea class="form-control" id="notes" name="notes" rows="3"></textarea>
+                    </div>
+                </div>
+
+                <div class="buttons text-center">
+                    <button type="button" class="btn btn-secondary" id="prevBtn" onclick="nextPrev(-1)" style="display:none;">Indietro</button>
+                    <button type="button" class="btn btn-primary" id="nextBtn" onclick="nextPrev(1)">Avanti</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+    <footer class="ftco-footer ftco-section img">
+		<div class="overlay"></div>
+		<div class="container">
+			<div class="row mb-5">
+			<div class="col-lg-4 col-md-6 mb-5">
+					<div class="ftco-footer-widget mb-4">
+						<h2 class="ftco-heading-2">Recapiti</h2>
+						<div class="block-23 mb-3">
+							<ul>
+								<li><span class="icon icon-map-marker"></span><span class="text">Via Madonna delle carceri 4, Camerino, MC 62032</span></li>
+								<li><span class="icon icon-phone"></span><span class="text">+39 3295695194</span></li>
+								<li><span class="icon icon-envelope"></span><span class="text">esempio@mail.com</span></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+	
+				<div class="col-lg-4 col-md-6 mb-5">
+					<div class="ftco-footer-widget mb-4 ml-md-4">
+						<h2 class="ftco-heading-2">Pagine</h2>
+						<ul class="list-unstyled">
+						  <li><a href="home.html" class="py-2 d-block">Home</a></li>
+						  <li><a href="menu.php" class="py-2 d-block">Menu</a></li>
+						  <li><a href="blog.php" class="py-2 d-block">Blog</a></li>
+						  <li><a href="contatti.html" class="py-2 d-block">Contatti</a></li>
+					  </ul>
+					</div>
+				</div>
+	
+				<div class="col-lg-4 col-md-6 mb-5">
+					<div class="ftco-footer-widget mb-4">
+						<h2 class="ftco-heading-2">Recent Blog</h2>
+						<div class="block-21 mb-4 d-flex">
+							<a class="blog-img mr-4" style="background-image: url(images/image_1.jpg);"></a>
+							<div class="text">
+								<h3 class="heading"><a href="#">Even the all-powerful Pointing has no control about</a></h3>
+								<div class="meta">
+									<div><span class="icon-calendar"></span> Sept 15, 2018</div>
+									<div><span class="icon-person"></span> Admin</div>
+									<div><span class="icon-chat"></span> 19</div>
+								</div>
+							</div>
+						</div>
+						<div class="block-21 mb-4 d-flex">
+							<a class="blog-img mr-4" style="background-image: url(images/image_2.jpg);"></a>
+							<div class="text">
+								<h3 class="heading"><a href="#">Even the all-powerful Pointing has no control about</a></h3>
+								<div class="meta">
+									<div><span class="icon-calendar"></span> Sept 15, 2018</div>
+									<div><span class="icon-person"></span> Admin</div>
+									<div><span class="icon-chat"></span> 19</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+	
+			</div>
+			<div class="row">
+				<div class="col-md-12 text-center">
+					<p>
+						Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved
+					</p>
+				</div>
+			</div>
+		</div>
+	</footer>
+
+    <script>
+
+$(document).ready(function() {
+    // Quando un bottone viene cliccato
+    $(".deliveryOption").click(function() {
+        // Rimuovi la classe 'active' da tutti i bottoni
+        $(".deliveryOption").removeClass("active");
+        // Aggiungi la classe 'active' al bottone cliccato
+        $(this).addClass("active");
+    });
+});
+
+
+        let currentStep = 0; 
+        showStep(currentStep);
+
+        function showStep(n) {
+            const steps = document.getElementsByClassName("step");
+        steps[n].classList.add("active");
+        if(n == 2){
+            const select = $("#time");
+        const now = new Date(); // Ottieni l'ora attuale
+        const currentHours = now.getHours();
+        const currentMinutes = now.getMinutes();
+
+        let start = 19 * 60 + 30; // 19:30 in minuti
+        const end = 23 * 60; // 23:00 in minuti
+
+        for (let i = start; i <= end; i += 15) {
+            const hours = Math.floor(i / 60);
+            const minutes = i % 60;
+
+            // Se l'orario è passato, lo escludiamo
+            if (hours > currentHours || (hours === currentHours && minutes > currentMinutes)) {
+                const time = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+                select.append(new Option(time, time));
+            }
+        }
+        }
+        const isLastStep = n == (steps.length - 1);
+        
+        $("#prevBtn").toggle(n != 0 && !isLastStep);
+        const paymentType = $('input[name="paymentType"]:checked').val();
+
+        if (isLastStep) {
+            if (paymentType === "Carta") {
+                $("#nextBtn").text("Paga Ora");
+            } else {
+                $("#nextBtn").text("Conferma Ordine");
+            }
+            } else {
+                $("#nextBtn").text("Avanti");
+            }        
+        }
+
+        function nextPrev(n) {
+            const steps = document.getElementsByClassName("step");
+
+            if (n === 1 && !validateStep()) {
+                return false;
+            }
+
+            steps[currentStep].classList.remove("active");
+
+            currentStep += n;
+
+            // Se siamo all'ultimo step, chiama la funzione riepilogo
+            if (currentStep >= steps.length - 1) {  
+                updateSummary(); // Aggiorna il riepilogo con i dati inseriti
+                currentStep = steps.length - 1; // Assicurati di restare nell'ultimo step
+
+                // Chiama la funzione riepilogo per ottenere i dati dell'ordine
+                riepilogo();
+
+                // Chiama la funzione ordina per confermare l'ordine quando l'utente clicca su "Conferma Ordine"
+                document.getElementById("nextBtn").addEventListener("click", function() {
+                    const paymentType = document.querySelector('input[name="paymentType"]:checked')?.value;
+
+                    if (paymentType === "Carta") {
+                        paga(); // Chiama il metodo paga() se il tipo di pagamento è "Carta"
+                    } else {
+                        ordina(); // Chiama il metodo ordina() per gli altri tipi di pagamento
+                    }
+                });
+
+                showStep(currentStep);
+                window.scrollTo(0, 0);
+                return;
+            }
+
+            showStep(currentStep);
+             // Scorri all'inizio della pagina
+            window.scrollTo(0, 0);
+        }
+        function validateStep() {
+    const steps = document.getElementsByClassName("step");
+    const inputs = steps[currentStep].querySelectorAll("input, select");
+    let valid = true;
+
+    inputs.forEach(input => {
+        if (!input.checkValidity()) {
+            input.classList.add("is-invalid");
+            valid = false;
+        } else {
+            input.classList.remove("is-invalid");
+        }
+    });
+
+    // Verifica che una modalità di consegna sia stata selezionata
+    const deliveryType = document.querySelector('input[name="deliveryType"]:checked');
+    if (!deliveryType) {
+        alert('Seleziona una modalità di consegna.');
+        valid = false;
+    }
+
+    return valid;
+}
+
+// Aggiungi evento per gestire i pulsanti di toggle per la modalità di consegna
+document.querySelectorAll('.btn-group-toggle label').forEach(label => {
+    label.addEventListener('click', function() {
+        // Rimuovi la classe 'active' dagli altri pulsanti
+        document.querySelectorAll('.btn-group-toggle label').forEach(l => l.classList.remove('active'));
+        // Aggiungi la classe 'active' al pulsante cliccato
+        label.classList.add('active');
+    });
+});
+
+
+        function updateSummary() {
+            const deliveryType = document.querySelector('input[name="deliveryType"]:checked');
+            document.getElementById("summaryDelivery").textContent = deliveryType ? deliveryType.value : '';
+            document.getElementById("summaryName").textContent = document.getElementById("name").value + " " + document.getElementById("surname").value;
+            document.getElementById("summaryAddress").textContent = document.getElementById("address").value;
+            document.getElementById("summaryPhone").textContent = document.getElementById("phone").value;
+            document.getElementById("summaryEmail").textContent = document.getElementById("email").value;
+            document.getElementById("summaryTime").textContent = document.getElementById("time").value;
+        }
+
+        function riepilogo() {
+            $.ajax({
+                type: "POST",
+                url: 'action.php?_action=riepilogo',
+                dataType: 'json',
+                success: function (result) {
+                    if (result.status === 1) {
+                        const ordineTableBody = $("#ordineTableBody");
+                        ordineTableBody.empty();
+                        
+                        result.data.prodotti.forEach(prodotto => {
+                            const prodottoRow = `
+                                <tr>
+                                    <td>${prodotto.nomeProdotto}</td>
+                                    <td>${prodotto.quantita}</td>
+                                    <td>€${prodotto.subtotale.toFixed(2)}</td>
+                                </tr>
+                            `;
+                            ordineTableBody.append(prodottoRow);
+                        });
+
+                        $("#riepilogoTotale").text(`€${result.data.totale.toFixed(2)}`);
+
+                    } else {
+                        alert("Errore durante il caricamento del riepilogo.");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("Errore nella richiesta AJAX:", status, error);
+                    alert("Si è verificato un errore. Riprova più tardi.");
+                }
+            });
+        }
+
+
+
+        function paga() {
+            // Collect order details
+            const nome = $('#name').val();
+            const cognome = $('#surname').val();
+            const indirizzo = $('#address').val();
+            const telefono = $('#phone').val();
+            const email = $('#email').val();
+            const orarioConsegna = $('#time').val();
+            const note = $('#notes').val();
+            const deliveryType = $('input[name="deliveryType"]:checked').val();
+            const paymentType = $('input[name="paymentType"]:checked').val();
+            const amount=98;
+            $("#loader").show();
+
+            // First AJAX call to submit order details
+            $.ajax({
+                type: "POST",
+                url: 'action.php?_action=salvaInformazioniPagamento',
+                dataType: 'json',
+                data: {
+                        nome: nome,
+                        cognome: cognome,
+                        indirizzo: indirizzo,
+                        telefono: telefono,
+                        email: email,
+                        orarioConsegna: orarioConsegna,
+                        note: note,
+                        deliveryType: deliveryType,
+                        paymentType: paymentType
+                    },
+                success: function(result) {
+                    if (result.status === 1) {
+                        // If order save is successful, proceed with payment
+                        $.ajax({
+                        type: "POST",
+                        url: 'action.php?_action=riepilogo',
+                        dataType: 'json',
+                        success: function(result) {
+                            if (result.status === 1) {
+                                const amount = result.data.totale;
+                                
+                                // Second AJAX call for payment
+                                $.ajax({
+                                    type: "POST",
+                                    url: 'action.php?_action=Paga',
+                                    dataType: 'json',
+                                    success: function(paymentResult) {
+                                        console.log(paymentResult);
+                                        $("#loader").hide();
+                                        
+                                        if (paymentResult && paymentResult.client_secret) {
+                                            window.location.href = `pagaStripe.html?client_secret=${encodeURIComponent(paymentResult.client_secret)}&amount=${amount}`;
+                                        } else {
+                                            console.error("Errore nell'elaborazione del pagamento:", paymentResult.message || "Nessun messaggio di errore.");
+                                            alert("Si è verificato un errore nel pagamento. Riprova più tardi.");
+                                        }
+                                    },
+                                    error: function(xhr, status, error) {
+                                        console.error("Errore nella richiesta di pagamento:", error);
+                                        let errorMessage = "Si è verificato un errore di comunicazione con il server per il pagamento.";
+                                        if (xhr.responseText.startsWith("<br />") || xhr.responseText.startsWith("<b>")) {
+                                            errorMessage += " Il server ha generato un errore PHP.";
+                                        }
+                                        alert(errorMessage + " Riprova più tardi.");
+                                    }
+                                });
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.error("Errore nel recupero del totale:", error);
+                            alert("Errore nel recupero del totale. Riprova più tardi.");
+                        }
+                    });
+                    } else {
+                        // Order save failed
+                        console.error("Errore nel salvataggio dell'ordine:", result);
+                        alert("Impossibile completare l'ordine. Verifica i tuoi dati e riprova.");
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error("Errore nel salvataggio dell'ordine:", error);
+                    alert("Errore di comunicazione. Riprova più tardi.");
+                }
+            });
+        }
+
+
+        function ordina() {
+        // Recupera i dati dell'utente dal form
+        const nome = $('#name').val();
+        const cognome = $('#surname').val();
+        const indirizzo = $('#address').val();
+        const telefono = $('#phone').val();
+        const email = $('#email').val();
+        const orarioConsegna = $('#time').val();
+        const note = $('#notes').val();
+        const deliveryType = $('input[name="deliveryType"]:checked').val();
+        const paymentType = $('input[name="paymentType"]:checked').val();
+
+        // Mostra il loader
+        $("#loader").show();
+
+        // Invia la richiesta AJAX con i dati dell'utente
+        $.ajax({
+            type: "POST",
+            url: 'action.php?_action=ordina',
+            dataType: 'json',
+            data: {
+                nome: nome,
+                cognome: cognome,
+                indirizzo: indirizzo,
+                telefono: telefono,
+                email: email,
+                orarioConsegna: orarioConsegna,
+                note: note,
+                deliveryType: deliveryType,
+                paymentType: paymentType
+            },
+            success: function(result) {
+                console.log(result)
+                if (result.status === 1) {
+                    // Mostra il loader
+                    $("#loader").hide();
+                    // Reindirizza alla pagina di conferma/conclusione
+                    window.location.href = 'conclusione.html';
+                } else {
+                    console.error("Errore nell'elaborazione dell'ordine:", result.message);
+                    alert("Si è verificato un errore. Riprova più tardi.");
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("Errore nella richiesta AJAX:", error);
+                let errorMessage = "Si è verificato un errore di comunicazione con il server.";
+                if (xhr.responseText.startsWith("<br />") || xhr.responseText.startsWith("<b>")) {
+                    errorMessage += " Il server ha generato un errore PHP.";
+                }
+                alert(errorMessage + " Riprova più tardi.");
+            }
+        });
+    }
+
+    </script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

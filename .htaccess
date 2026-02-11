@@ -1,0 +1,7 @@
+RewriteEngine On
+RewriteRule ^menu/?$ menuprova1.php [L]
+RewriteRule ^menuKebab/?$ menu2.php [L]
+RewriteRule ^home/?$ index.html [L]
+RewriteRule ^contatti/?$ contatti.html [L]
+RewriteRule ^blog/?$ blog.php [L]
+RewriteRule ^prenota_tavolo/?$ prenota_tavolo.php [L]

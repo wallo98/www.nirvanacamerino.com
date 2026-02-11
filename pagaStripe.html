@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pagamento</title>
+    <meta charset="UTF-8">
+    <script src="https://js.stripe.com/v3/"></script>
+    <style>
+        :root {
+            --base-font-size: 16px;
+        }
+
+        .payment-container {
+            max-width: 80%;
+            margin: 5%;
+            padding: 5%;
+            box-shadow: 0 0 1em rgba(0, 0, 0, 0.1);
+            border-radius: 1em;
+            width: 95%;
+            min-height: 150%;
+        }
+
+        #payment-element {
+            margin: 5% 0;
+            font-size: 2.5rem;
+        }
+
+        #submit-button {
+            width: 100%;
+            padding: 1em;
+            font-size: 1.25rem;
+            background: #5469d4;
+            color: white;
+            border: none;
+            border-radius: 0.5em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #submit-button:hover {
+            background: #4054b2;
+        }
+
+        #submit-button:disabled {
+            opacity: 0.5;
+            cursor: default;
+        }
+
+        #payment-message {
+            color: #dc3545;
+            margin-top: 1em;
+            text-align: center;
+            font-size: 1rem;
+        }
+
+        #payment-info {
+            margin: 2em auto;
+            text-align: center;
+            padding: 2em;
+            background: #f8f9fa;
+            border-radius: 1em;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+        }
+
+        .amount-label {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 0.5em;
+        }
+
+        .amount-value {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #2d3748;
+            margin: 0.2em 0;
+            font-family: Arial, sans-serif;
+        }
+
+        #payment-note {
+            margin-top: 2em;
+            text-align: center;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .payment-container {
+                padding: 10%;
+            }
+
+            #payment-element {
+                font-size: 2rem;
+            }
+
+            #submit-button {
+                font-size: 1rem;
+            }
+
+            .amount-value {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="payment-container">
+        <div id="payment-info">
+            <div class="amount-label">Totale</div>
+            <div class="amount-value">
+                <!-- L'importo sarà aggiunto dinamicamente tramite JavaScript -->
+            </div>
+        </div>
+
+        <form id="payment-form">
+            <div id="payment-element"></div>
+            <button id="submit-button">
+                <span id="button-text">Paga ora</span>
+            </button>
+            <div id="payment-message"></div>
+        </form>
+        <div id="payment-note">
+            Una volta completato il pagamento, verrai automaticamente reindirizzato al sito per concludere il processo.
+        </div>
+    </div>
+
+    <script>
+        function getQueryParam(param) {
+            const params = new URLSearchParams(window.location.search);
+            return params.get(param);
+        }
+
+        const clientSecret = getQueryParam('client_secret');
+        const amount = getQueryParam('amount');
+
+        if (!clientSecret || !amount) {
+            document.getElementById('payment-message').textContent = "Errore: non è stato possibile inizializzare il pagamento.";
+        } else {
+            // Formatta l'importo correttamente
+            const amountNumber = amount + "€"
+            const formattedAmount = amountNumber.toLocaleString('it-IT', {
+                style: 'currency',
+                currency: 'EUR'
+            });
+            document.querySelector('.amount-value').textContent = formattedAmount;
+
+            const stripe = Stripe('pk_live_51Qhav1KckrwXcvRhSSenphzBtkecvrmu08pgylV5aY1BvdyaPtqmwcaT70esk4gxClxvQC1P3E8y78lzdhsxFgVF00BC5xan0I');
+            const elements = stripe.elements({ clientSecret });
+            const paymentElement = elements.create('payment');
+            paymentElement.mount('#payment-element');
+
+            const form = document.getElementById('payment-form');
+            const submitButton = document.getElementById('submit-button');
+            const messageDiv = document.getElementById('payment-message');
+
+            form.addEventListener('submit', async (event) => {
+                event.preventDefault();
+                submitButton.disabled = true;
+
+                try {
+                    const { error } = await stripe.confirmPayment({
+                        elements,
+                        confirmParams: {
+                            return_url: window.location.origin + '/conclusioneStripe.php',
+                        }
+                    });
+
+                    if (error) {
+                        messageDiv.textContent = error.message;
+                        submitButton.disabled = false;
+                    }
+                } catch (e) {
+                    messageDiv.textContent = "Si è verificato un errore inaspettato.";
+                    submitButton.disabled = false;
+                }
+            });
+        }
+    </script>
+</body>
+</html>
