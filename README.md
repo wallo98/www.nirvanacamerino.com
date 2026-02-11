@@ -5,7 +5,7 @@ Sistema completo per gestione pizzeria con ordini online e prenotazioni tavoli.
 **Backoffice** (gestionale amministrativo)  
 **Shop** (frontend clienti mobile-first)
 
-Sviluppato in PHP con architettura MVC e Bootstrap 5.
+Sviluppato in PHP con Bootstrap 5.
 
 ## 🎯 Funzionalità
 
